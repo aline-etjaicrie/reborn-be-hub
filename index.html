@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub Com — Reborn & Be</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#142B38;--darker:#0A1E28;--bg:#F2EFE9;--surface:#fff;
+  --muted:#516675;--border:rgba(20,43,56,.1);--accent:#0A97D9;
+  --cosmo:#FD9D24;--coworking:#26BDE2;--spaces:#8E44AD;
+  --village:#DD1367;--club:#00689D;--franchise:#FD6925;
+  --numerik:#4C9F38;--campus:#DDA63A;--formation:#C5192D;
+  --tiers:#3F7E44;--jonquiere:#F05A57;--reborn:#0A97D9;
+}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--darker);display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
+.sb-logo{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sb-logo-main{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff}
+.sb-logo-main span{color:var(--accent)}
+.sb-logo-sub{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-top:2px}
+.sb-user{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:9px}
+.sb-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:700;color:#fff}
+.sb-urole{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
+.sb-sec{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.25);padding:8px 20px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 20px;cursor:pointer;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);transition:all 140ms;border-left:2px solid transparent;text-decoration:none}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.04)}
+.nav-item.active{color:#fff;background:rgba(10,151,217,.12);border-left-color:var(--accent)}
+.nav-icon{font-size:13px;width:17px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:#F05A57;color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:10px}
+.nav-div{height:1px;background:rgba(255,255,255,.06);margin:6px 20px}
+.be-filters{padding:6px 10px}
+.be-f{display:flex;align-items:center;gap:7px;padding:5px 8px;cursor:pointer;font-size:11px;font-weight:600;color:rgba(255,255,255,.4);transition:all 140ms;border-left:2px solid transparent}
+.be-f:hover{color:rgba(255,255,255,.75)}
+.be-f.active{color:#fff}
+.be-dot{width:7px;height:7px;flex-shrink:0}
+.sb-bottom{padding:10px 20px;border-top:1px solid rgba(255,255,255,.06)}
+.proxy-st{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);cursor:pointer}
+.pdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.pdot.ok{background:#4CAF50;animation:pulse 2s infinite}
+.pdot.warn{background:#FFC107}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* MAIN */
+.main{margin-left:220px;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:50px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.topbar-date{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.topbar-r{display:flex;align-items:center;gap:7px}
+.btn-p{padding:7px 14px;background:var(--accent);color:#fff;border:none;font-family:'Barlow',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:opacity 140ms;display:flex;align-items:center;gap:5px}
+.btn-p:hover{opacity:.88}
+.btn-o{padding:6px 12px;background:transparent;border:1px solid var(--border);color:var(--dark);font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:all 140ms}
+.btn-o:hover{background:var(--bg)}
+.content{padding:20px 24px;flex:1}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-top:3px solid;padding:12px 14px}
+.kpi-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;line-height:1;color:var(--dark)}
+.kpi-sub{font-size:10px;color:var(--muted);margin-top:3px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 360px;gap:16px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border)}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-t{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.card-acts{display:flex;gap:5px}
+
+/* AGENDA */
+.cal-frame{width:100%;height:460px;border:none;display:block}
+
+/* PIPELINE */
+.pipe-cols{display:grid;grid-template-columns:repeat(5,1fr)}
+.pipe-col{padding:10px 12px;border-right:1px solid var(--border);min-height:140px}
+.pipe-col:last-child{border-right:none}
+.pipe-col-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pipe-col-n{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.pipe-cnt{width:16px;height:16px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--muted)}
+.pipe-item{background:var(--bg);border:1px solid var(--border);padding:7px 9px;margin-bottom:5px;cursor:pointer;transition:border-color 140ms}
+.pipe-item:hover{border-color:var(--dark)}
+.pipe-be{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px}
+.pipe-title{font-size:11px;font-weight:700;color:var(--dark);line-height:1.2}
+.pipe-meta{font-size:9px;color:var(--muted);margin-top:2px}
+
+/* RIGHT */
+.r-sidebar{display:flex;flex-direction:column;gap:14px}
+.qa-card{background:var(--dark);padding:14px}
+.qa-t{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;text-transform:uppercase;color:#fff;margin-bottom:3px}
+.qa-s{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px}
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.qa-btn{padding:9px 7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(255,255,255,.75);font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:all 140ms;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.qa-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.qa-btn.hi{background:var(--accent);border-color:var(--accent);color:#fff;grid-column:1/-1}
+.qa-icon{font-size:16px}
+.ann-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 140ms}
+.ann-item:last-child{border-bottom:none}
+.ann-item:hover{background:var(--bg)}
+.ann-be{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.ann-txt{font-size:11px;color:var(--dark);line-height:1.4}
+.ann-time{font-size:9px;color:var(--muted);margin-top:2px}
+.link-row{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;transition:background 140ms;text-decoration:none}
+.link-row:last-child{border-bottom:none}
+.link-row:hover{background:var(--bg)}
+.lname{font-size:11px;font-weight:600;color:var(--dark);flex:1}
+.larr{font-size:10px;color:var(--muted)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(10,30,40,.75);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.overlay.open{display:flex}
+.modal{background:var(--surface);width:660px;max-height:92vh;overflow-y:auto;animation:slideUp 200ms ease-out}
+@keyframes slideUp{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.modal-h{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:2}
+.modal-t{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.modal-x{width:26px;height:26px;border:1px solid var(--border);background:none;cursor:pointer;font-size:13px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all 140ms}
+.modal-x:hover{background:var(--dark);color:#fff}
+.modal-b{padding:18px 22px}
+.modal-f{padding:12px 22px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end;position:sticky;bottom:0;background:var(--surface)}
+
+/* Steps */
+.steps{display:flex;margin-bottom:18px}
+.step-ind{flex:1;padding:7px 4px;text-align:center;border-bottom:2px solid var(--border);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);transition:all 140ms}
+.step-ind.active{border-bottom-color:var(--accent);color:var(--accent)}
+.step-ind.done{border-bottom-color:#4CAF50;color:#4CAF50}
+.step-p{display:none}
+.step-p.active{display:block}
+
+/* Fields */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.field input,.field textarea,.field select{width:100%;padding:8px 10px;border:1px solid var(--border);background:var(--bg);color:var(--dark);font-family:'Barlow',sans-serif;font-size:13px;border-radius:0;outline:none;transition:border-color 140ms}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.field textarea{min-height:68px;resize:vertical}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Be grid modal */
+.be-mg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.be-mb{padding:7px 9px;border:1px solid;background:transparent;cursor:pointer;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;transition:all 140ms;text-align:left;display:flex;align-items:center;gap:5px}
+.be-mb.active{color:#fff!important}
+
+/* Canal chips */
+.cc{display:flex;gap:4px;flex-wrap:wrap}
+.cc-btn{padding:5px 10px;border:1px solid var(--border);background:transparent;cursor:pointer;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--dark);transition:all 140ms}
+.cc-btn.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+/* Ton */
+.ton{display:flex}
+.ton-b{flex:1;padding:6px 4px;text-align:center;border:1px solid var(--border);border-right:none;cursor:pointer;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);transition:all 140ms;background:transparent}
+.ton-b:last-child{border-right:1px solid var(--border)}
+.ton-b.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+/* Type content btns */
+.type-g{display:flex;flex-wrap:wrap;gap:4px}
+.type-b{padding:5px 10px;border:1px solid var(--border);background:transparent;cursor:pointer;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--dark);transition:all 140ms}
+.type-b.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+/* IA Result */
+.ia-res{background:var(--bg);border:1px solid var(--border);padding:14px;min-height:100px}
+.ia-txt{font-size:14px;line-height:1.75;color:var(--dark);white-space:pre-wrap}
+.ia-txt.streaming::after{content:'|';animation:blink .8s step-end infinite;color:var(--accent)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.ia-tags{margin-top:8px;font-size:13px;color:var(--accent);line-height:1.6}
+.ia-acts{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.ia-act{padding:5px 11px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-family:'Barlow',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--dark);transition:all 140ms}
+.ia-act:hover{background:var(--dark);color:#fff}
+.ia-act.ok{background:#4CAF50;color:#fff;border-color:#4CAF50}
+.ia-act.ac{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Spinner */
+.spin-w{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--muted)}
+.spin{width:14px;height:14px;border:2px solid rgba(10,151,217,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Proxy config */
+.proxy-modal{position:fixed;bottom:16px;right:16px;background:var(--dark);padding:14px 18px;z-index:300;width:320px;border-left:3px solid var(--accent);animation:slideUp 200ms ease-out;display:none}
+.proxy-modal.open{display:block}
+.proxy-mt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin-bottom:8px}
+.proxy-ms{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:10px;line-height:1.5}
+.proxy-inp{width:100%;padding:8px 10px;margin-bottom:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-family:'Barlow',sans-serif;font-size:12px;border-radius:0;outline:none}
+.proxy-inp::placeholder{color:rgba(255,255,255,.3)}
+.proxy-inp:focus{border-color:var(--accent)}
+.proxy-save{width:100%;padding:9px;background:var(--accent);border:none;color:#fff;font-family:'Barlow',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer}
+
+/* Toast */
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;padding:9px 18px;font-size:11px;font-weight:700;z-index:1000;opacity:0;transition:opacity 200ms;pointer-events:none}
+.toast.show{opacity:1}
+
+/* Val btns */
+.val-btns{display:flex;gap:4px;margin-top:7px}
+.vbtn{padding:4px 10px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;transition:opacity 140ms}
+.vbtn:hover{opacity:.85}
+.vbtn.ap{background:#4CAF50;color:#fff}
+.vbtn.re{background:#F05A57;color:#fff}
+
+/* Section display */
+.section{display:none}
+.section.active{display:block}
+
+/* Bouton burger (caché sur desktop) */
+.burger{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--dark);padding:0 6px;line-height:1}
+
+/* ============================================================ */
+/* RESPONSIVE — tablet (≤ 1100px) puis mobile (≤ 800px)         */
+/* ============================================================ */
+
+@media (max-width: 1100px) {
+  .g2{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:repeat(3,1fr)}
+  .kpi-row .kpi:nth-child(n+4){grid-column:span 1}
+}
+
+@media (max-width: 800px) {
+  /* Sidebar slidable */
+  .sidebar{transform:translateX(-100%);transition:transform 220ms ease-out;width:240px}
+  .sidebar.open{transform:translateX(0);box-shadow:2px 0 14px rgba(0,0,0,.3)}
+  .main{margin-left:0}
+
+  /* Bouton burger visible */
+  .burger{display:inline-block}
+
+  .topbar{padding:0 14px;height:48px;gap:8px}
+  .page-title{font-size:13px}
+  .topbar-date{display:none}
+  .btn-p,.btn-o{padding:6px 10px;font-size:10px}
+
+  .content{padding:14px}
+
+  /* KPIs : défilement horizontal */
+  .kpi-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+  .kpi{min-width:160px;flex-shrink:0;scroll-snap-align:start}
+
+  /* Pipeline : colonnes en accordéon vertical */
+  .pipe-cols{grid-template-columns:1fr}
+  .pipe-col{border-right:none;border-bottom:1px solid var(--border);min-height:auto}
+  .pipe-col:last-child{border-bottom:none}
+
+  /* Agenda */
+  .cal-frame{height:380px}
+
+  /* Modal plein écran sur mobile */
+  .modal{width:100%;max-height:100vh;height:100vh}
+  .modal-h{padding:12px 16px}
+  .modal-t{font-size:14px}
+  .modal-b{padding:14px 16px}
+  .modal-f{padding:10px 16px;flex-wrap:wrap}
+  .be-mg{grid-template-columns:repeat(2,1fr)}
+  .frow{grid-template-columns:1fr}
+
+  /* Right sidebar (annonces, liens) : passe sous le dashboard */
+  .r-sidebar{margin-top:14px}
+
+  /* Backdrop quand sidebar ouverte */
+  .sb-backdrop{position:fixed;inset:0;background:rgba(10,30,40,.5);z-index:99;display:none}
+  .sb-backdrop.show{display:block}
+}
+
+@media (max-width: 480px) {
+  .kpi-val{font-size:22px}
+  .be-mg{grid-template-columns:1fr 1fr}
+  .type-g .type-b,.cc-btn{font-size:9px;padding:4px 8px}
+  .proxy-modal{width:calc(100vw - 24px);right:12px;bottom:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-main">Reborn <span>&</span> Be</div>
+    <div class="sb-logo-sub">Hub Communication</div>
+  </div>
+  <div class="sb-user">
+    <div class="sb-avatar" id="sb-av">A</div>
+    <div>
+      <div class="sb-uname" id="sb-name">Mon espace</div>
+      <div class="sb-urole" id="sb-role">Équipe com</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Navigation</div>
+    <a class="nav-item active" onclick="showSection('dashboard',this)"><span class="nav-icon">⊞</span><span>Tableau de bord</span></a>
+    <a class="nav-item" onclick="showSection('agent',this)"><span class="nav-icon">✦</span><span>Agent rédaction</span></a>
+    <a class="nav-item" onclick="showSection('agenda',this)"><span class="nav-icon">📅</span><span>Agenda complet</span></a>
+    <a class="nav-item" onclick="showSection('pipeline',this)"><span class="nav-icon">⬡</span><span>Pipeline</span><span class="nav-badge" id="nb">2</span></a>
+    <a class="nav-item" onclick="showSection('recap',this)"><span class="nav-icon">📦</span><span>Récap archivé</span><span class="nav-badge" id="archive-badge" style="background:#6c757d"></span></a>
+    <div class="nav-div"></div>
+    <div class="sb-sec">Ressources</div>
+    <a class="nav-item" onclick="showSection('templates',this)"><span class="nav-icon">🎨</span><span>Templates Canva</span></a>
+    <a class="nav-item" onclick="showSection('photos',this)"><span class="nav-icon">📷</span><span>Photothèques</span></a>
+    <a class="nav-item" onclick="showSection('liens',this)"><span class="nav-icon">🔗</span><span>Liens utiles</span></a>
+    <a class="nav-item" onclick="showSection('guide',this)"><span class="nav-icon">📖</span><span>Guide com</span></a>
+    <div class="nav-div"></div>
+    <div class="sb-sec">Filtrer par Be</div>
+    <div class="be-filters">
+      <div class="be-f active" data-be="all" onclick="filterBe(this)"><div class="be-dot" style="background:var(--accent)"></div>Tous</div>
+      <div class="be-f" data-be="cosmo" onclick="filterBe(this)"><div class="be-dot" style="background:var(--cosmo)"></div>Be-Cosmo</div>
+      <div class="be-f" data-be="coworking" onclick="filterBe(this)"><div class="be-dot" style="background:var(--coworking)"></div>Be-Coworking</div>
+      <div class="be-f" data-be="spaces" onclick="filterBe(this)"><div class="be-dot" style="background:var(--spaces)"></div>Be-Spaces</div>
+      <div class="be-f" data-be="village" onclick="filterBe(this)"><div class="be-dot" style="background:var(--village)"></div>Be-Village</div>
+      <div class="be-f" data-be="jonquiere" onclick="filterBe(this)"><div class="be-dot" style="background:var(--jonquiere)"></div>Cœur Jonquière</div>
+      <div class="be-f" data-be="numerik" onclick="filterBe(this)"><div class="be-dot" style="background:var(--numerik)"></div>Be-Numerik</div>
+      <div class="be-f" data-be="campus" onclick="filterBe(this)"><div class="be-dot" style="background:var(--campus)"></div>Campus 112</div>
+    </div>
+  </nav>
+  <div class="sb-bottom">
+    <div class="proxy-st" style="cursor:default">
+      <div class="pdot ok"></div>
+      <span>Agent IA connecté</span>
+    </div>
+  </div>
+</div>
+
+<!-- BACKDROP (mobile : ferme la sidebar quand on clique à côté) -->
+<div class="sb-backdrop" id="sbBackdrop" onclick="toggleSidebar(false)"></div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="burger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+      <div class="page-title" id="ptitle">Tableau de bord</div>
+      <div class="topbar-date" id="tdate"></div>
+    </div>
+    <div class="topbar-r">
+      <button class="btn-o" onclick="openModal('event')">+ Événement</button>
+      <button class="btn-p" onclick="openModal('content')">✦ Créer un contenu</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div id="s-dashboard" class="section active">
+      <!-- Bannière suggestions — événements prochains sans post pipeline -->
+      <div id="suggestions-bar" style="display:none;margin:-20px -24px 16px;border-radius:0"></div>
+
+      <div class="kpi-row">
+        <div class="kpi" style="border-top-color:var(--accent)">
+          <div class="kpi-lbl">Prochain événement</div>
+          <div class="kpi-val" style="font-size:15px;margin-top:4px">JPO Be-Coworking</div>
+          <div class="kpi-sub">17 mai · 10h–18h</div>
+        </div>
+        <div class="kpi" style="border-top-color:var(--cosmo)">
+          <div class="kpi-lbl">Cette semaine</div>
+          <div class="kpi-val">3</div>
+          <div class="kpi-sub">événements</div>
+        </div>
+        <div class="kpi" style="border-top-color:#FFC107">
+          <div class="kpi-lbl">À valider</div>
+          <div class="kpi-val" id="kv">2</div>
+          <div class="kpi-sub">contenus</div>
+        </div>
+        <div class="kpi" style="border-top-color:#4CAF50">
+          <div class="kpi-lbl">Postés ce mois</div>
+          <div class="kpi-val">12</div>
+          <div class="kpi-sub">sur 4 canaux</div>
+        </div>
+        <div class="kpi" style="border-top-color:var(--spaces)">
+          <div class="kpi-lbl">Templates dispo</div>
+          <div class="kpi-val">24</div>
+          <div class="kpi-sub">par Be et format</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div>
+          <!-- AGENDA HERO -->
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-h">
+              <div class="card-t">📅 Agenda — tous les Be</div>
+              <div class="card-acts">
+                <button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="refreshCalendars()" title="Rafraîchir l'agenda">↻</button>
+                <button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="showSection('agenda',null)">Plein écran</button>
+                <button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="openModal('event')">+ Event</button>
+              </div>
+            </div>
+            <iframe class="cal-frame" id="cal"
+              src="https://calendar.google.com/calendar/embed?height=460&wkst=2&ctz=Europe%2FParis&bgcolor=%23F7F9FA&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&mode=MONTH"
+              frameborder="0" scrolling="no"></iframe>
+          </div>
+
+          <!-- PIPELINE MINI -->
+          <div class="card">
+            <div class="card-h">
+              <div class="card-t">⬡ Pipeline contenus</div>
+              <button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="showSection('pipeline',null)">Tout voir</button>
+            </div>
+            <div class="pipe-cols">
+              <div class="pipe-col">
+                <div class="pipe-col-h"><div class="pipe-col-n">À produire</div><div class="pipe-cnt">3</div></div>
+                <div class="pipe-item" onclick="openFromPipeline('JPO Be-Coworking','coworking','instagram','Journée portes ouvertes')">
+                  <div class="pipe-be" style="color:var(--coworking)">Be-Coworking</div>
+                  <div class="pipe-title">Post JPO · Instagram</div>
+                  <div class="pipe-meta">17 mai</div>
+                </div>
+                <div class="pipe-item" onclick="openFromPipeline('Marché des voisins','jonquiere','whatsapp','Marché local quartier Jonquière')">
+                  <div class="pipe-be" style="color:var(--jonquiere)">Cœur Jonquière</div>
+                  <div class="pipe-title">Marché des voisins</div>
+                  <div class="pipe-meta">21 mai · WhatsApp</div>
+                </div>
+              </div>
+              <div class="pipe-col">
+                <div class="pipe-col-h"><div class="pipe-col-n">En cours</div><div class="pipe-cnt">1</div></div>
+                <div class="pipe-item">
+                  <div class="pipe-be" style="color:var(--cosmo)">Be-Cosmo</div>
+                  <div class="pipe-title">Afterwork networking</div>
+                  <div class="pipe-meta">Brouillon IA</div>
+                </div>
+              </div>
+              <div class="pipe-col">
+                <div class="pipe-col-h"><div class="pipe-col-n">À valider</div><div class="pipe-cnt" style="background:#FFF3CD;color:#856404">2</div></div>
+                <div class="pipe-item" style="border-left:2px solid #FFC107">
+                  <div class="pipe-be" style="color:var(--village)">Be-Village</div>
+                  <div class="pipe-title">Troc de plantes</div>
+                  <div class="val-btns"><button class="vbtn ap" onclick="valider(this)">✓</button><button class="vbtn re" onclick="rejeter(this)">✗</button></div>
+                </div>
+              </div>
+              <div class="pipe-col">
+                <div class="pipe-col-h"><div class="pipe-col-n">À poster</div><div class="pipe-cnt" style="background:#E3F2FD;color:#1565C0">0</div></div>
+              </div>
+              <div class="pipe-col">
+                <div class="pipe-col-h"><div class="pipe-col-n">Posté</div><div class="pipe-cnt" style="background:#E8F5E9;color:#2E7D32">5</div></div>
+                <div class="pipe-item" style="opacity:.55">
+                  <div class="pipe-be" style="color:var(--cosmo)">Be-Cosmo</div>
+                  <div class="pipe-title">Petit-déj coworkers</div>
+                  <div class="pipe-meta">7 mai ✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="r-sidebar">
+          <div class="qa-card">
+            <div class="qa-t">Actions rapides</div>
+            <div class="qa-s">Que veux-tu faire ?</div>
+            <div class="qa-grid">
+              <button class="qa-btn hi" onclick="openModal('content')"><span class="qa-icon">✦</span>Générer un post IA</button>
+              <button class="qa-btn" onclick="openModal('event')"><span class="qa-icon">📅</span>Nouvel événement</button>
+              <button class="qa-btn" onclick="openModal('actu')"><span class="qa-icon">📢</span>Actu lieu</button>
+              <button class="qa-btn" onclick="showSection('pipeline',null)"><span class="qa-icon">✓</span>Valider</button>
+              <button class="qa-btn" onclick="showSection('templates',null)"><span class="qa-icon">🎨</span>Templates</button>
+              <button class="qa-btn" onclick="showSection('photos',null)"><span class="qa-icon">📷</span>Photos</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><div class="card-t">Annonces équipe</div><span style="background:#F05A57;color:#fff;font-size:8px;font-weight:800;padding:2px 5px">2 new</span></div>
+            <div class="ann-item"><div class="ann-be" style="color:var(--cosmo)">Be-Cosmo</div><div class="ann-txt">Nouveaux templates programme mensuel dans Canva</div><div class="ann-time">Aujourd'hui</div></div>
+            <div class="ann-item"><div class="ann-be" style="color:var(--jonquiere)">Cœur Jonquière</div><div class="ann-txt">Charte graphique finalisée — voir Ressources</div><div class="ann-time">Hier</div></div>
+            <div class="ann-item"><div class="ann-be" style="color:var(--coworking)">Be-Coworking</div><div class="ann-txt">Photos JPO ajoutées à la photothèque</div><div class="ann-time">Il y a 3 jours</div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><div class="card-t">Liens utiles</div></div>
+            <a class="link-row" href="https://coeur-jonquiere.fr" target="_blank"><div class="be-dot" style="background:var(--jonquiere)"></div><div class="lname">coeur-jonquiere.fr</div><div class="larr">↗</div></a>
+            <a class="link-row" href="#"><div class="be-dot" style="background:var(--coworking)"></div><div class="lname">be-coworking.fr</div><div class="larr">↗</div></a>
+            <a class="link-row" href="https://drive.google.com/drive/folders/1m93hsGlO8ozaWRPPYIS0ik2rvG44CBRY" target="_blank"><div class="be-dot" style="background:#4CAF50"></div><div class="lname">Drive IA-Mkt-Com</div><div class="larr">↗</div></a>
+            <a class="link-row" href="#"><div class="be-dot" style="background:#25D366"></div><div class="lname">WhatsApp — 12 boucles</div><div class="larr">↗</div></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AGENDA FULL ===== -->
+    <div id="s-agenda" class="section">
+      <div class="card">
+        <div class="card-h"><div class="card-t">📅 Agenda complet — tous les Be</div><div class="card-acts"><button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="refreshCalendars()" title="Rafraîchir">↻ Rafraîchir</button><button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="openModal('event')">+ Événement</button></div></div>
+        <iframe style="width:100%;height:700px;border:none;display:block"
+          src="https://calendar.google.com/calendar/embed?height=700&wkst=2&ctz=Europe%2FParis&bgcolor=%23F7F9FA&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=1&mode=MONTH"
+          frameborder="0" scrolling="no"></iframe>
+      </div>
+    </div>
+
+    <!-- ===== AGENT ===== -->
+    <div id="s-agent" class="section">
+      <div style="max-width:760px">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px">L'agent est intégré dans le flux de création. Lance une génération depuis le bouton ci-dessous ou depuis "Créer un contenu" en haut à droite.</p>
+        <button class="btn-p" style="font-size:13px;padding:13px 24px" onclick="openModal('content')">✦ Lancer l'agent de rédaction</button>
+        <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);padding:16px">
+          <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px">Prompts éditoriaux chargés</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg)"><div class="be-dot" style="background:var(--cosmo)"></div><span style="font-size:12px;font-weight:700">Be-Cosmo</span><span style="font-size:11px;color:var(--muted);margin-left:auto">Sobriété · chaleur · ancrage territorial</span></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg)"><div class="be-dot" style="background:var(--reborn)"></div><span style="font-size:12px;font-weight:700">Reborn & Be</span><span style="font-size:11px;color:var(--muted);margin-left:auto">Plaidoyer · vision · stratégique</span></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border-left:2px dashed var(--border)"><div class="be-dot" style="background:var(--border);border-radius:50%"></div><span style="font-size:12px;font-weight:700;color:var(--muted)">Autres Be</span><span style="font-size:11px;color:var(--muted);margin-left:auto">Prompts intégrés · à enrichir</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PIPELINE FULL ===== -->
+    <div id="s-pipeline" class="section">
+      <div class="card">
+        <div class="card-h"><div class="card-t">⬡ Pipeline éditorial complet</div><button class="btn-p" onclick="openModal('content')" style="font-size:10px;padding:5px 12px">+ Nouveau contenu</button></div>
+        <div class="pipe-cols">
+          <div class="pipe-col">
+            <div class="pipe-col-h"><div class="pipe-col-n">À produire</div><div class="pipe-cnt">3</div></div>
+            <div class="pipe-item" onclick="openFromPipeline('JPO Be-Coworking','coworking','instagram','Journée portes ouvertes 17 mai')"><div class="pipe-be" style="color:var(--coworking)">Be-Coworking</div><div class="pipe-title">Post JPO · Instagram</div><div class="pipe-meta">17 mai</div></div>
+            <div class="pipe-item" onclick="openFromPipeline('Marché des voisins','jonquiere','whatsapp','Marché local habitants et commerçants')"><div class="pipe-be" style="color:var(--jonquiere)">Cœur Jonquière</div><div class="pipe-title">Marché des voisins</div><div class="pipe-meta">21 mai · WhatsApp</div></div>
+            <div class="pipe-item" onclick="openFromPipeline('Forum freelances','coworking','linkedin','Forum freelances et indépendants')"><div class="pipe-be" style="color:var(--coworking)">Be-Coworking</div><div class="pipe-title">Forum freelances</div><div class="pipe-meta">28 mai · LinkedIn</div></div>
+          </div>
+          <div class="pipe-col">
+            <div class="pipe-col-h"><div class="pipe-col-n">En cours</div><div class="pipe-cnt">1</div></div>
+            <div class="pipe-item"><div class="pipe-be" style="color:var(--cosmo)">Be-Cosmo</div><div class="pipe-title">Afterwork networking</div><div class="pipe-meta">Brouillon IA généré</div></div>
+          </div>
+          <div class="pipe-col">
+            <div class="pipe-col-h"><div class="pipe-col-n">À valider</div><div class="pipe-cnt" style="background:#FFF3CD;color:#856404">2</div></div>
+            <div class="pipe-item" style="border-left:2px solid #FFC107"><div class="pipe-be" style="color:var(--village)">Be-Village</div><div class="pipe-title">Troc de plantes</div><div class="pipe-meta">En attente</div><div class="val-btns"><button class="vbtn ap" onclick="valider(this)">✓ Approuver</button><button class="vbtn re" onclick="rejeter(this)">✗ Corriger</button></div></div>
+            <div class="pipe-item" style="border-left:2px solid #FFC107"><div class="pipe-be" style="color:var(--coworking)">Be-Coworking</div><div class="pipe-title">Programme juin</div><div class="pipe-meta">En attente</div><div class="val-btns"><button class="vbtn ap" onclick="valider(this)">✓ Approuver</button><button class="vbtn re" onclick="rejeter(this)">✗ Corriger</button></div></div>
+          </div>
+          <div class="pipe-col">
+            <div class="pipe-col-h"><div class="pipe-col-n">À poster</div><div class="pipe-cnt" style="background:#E3F2FD;color:#1565C0">0</div></div>
+          </div>
+          <div class="pipe-col">
+            <div class="pipe-col-h"><div class="pipe-col-n">Posté</div><div class="pipe-cnt" style="background:#E8F5E9;color:#2E7D32">5</div></div>
+            <div class="pipe-item" style="opacity:.55"><div class="pipe-be" style="color:var(--cosmo)">Be-Cosmo</div><div class="pipe-title">Petit-déj coworkers</div><div class="pipe-meta">7 mai ✓</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RÉCAP ARCHIVÉ ===== -->
+    <div id="s-recap" class="section">
+      <div class="card">
+        <div class="card-h">
+          <div class="card-t">📦 Récap des contenus postés et archivés</div>
+          <button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="viderArchive()">Vider l'archive</button>
+        </div>
+        <div id="archive-list" style="padding:14px;display:flex;flex-direction:column;gap:6px"></div>
+      </div>
+    </div>
+
+    <!-- ===== TEMPLATES ===== -->
+    <div id="s-templates" class="section">
+      <div style="margin-bottom:20px;display:flex;gap:8px;align-items:center">
+        <button class="btn-o" id="tab-digital" onclick="switchTab('digital')" style="background:var(--dark);color:#fff;border-color:var(--dark)">Digital</button>
+        <button class="btn-o" id="tab-print" onclick="switchTab('print')">Print</button>
+      </div>
+
+      <div id="tpl-digital">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+        <div class="card" style="border-top:3px solid var(--cosmo)"><div class="card-h"><div class="card-t" style="color:var(--cosmo)">Be-Cosmo</div></div><div style="padding:10px 14px;display:flex;flex-direction:column;gap:5px"><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Post événement avec illustrations <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Programme mensuel <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Story Instagram <span>↗</span></a></div></div>
+        <div class="card" style="border-top:3px solid var(--coworking)"><div class="card-h"><div class="card-t" style="color:var(--coworking)">Be-Coworking</div></div><div style="padding:10px 14px;display:flex;flex-direction:column;gap:5px"><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">4 layouts programme mois <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Affiche A4 <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Com interne / externe <span>↗</span></a></div></div>
+        <div class="card" style="border-top:3px solid var(--jonquiere)"><div class="card-h"><div class="card-t" style="color:var(--jonquiere)">Cœur Jonquière</div></div><div style="padding:10px 14px;display:flex;flex-direction:column;gap:5px"><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Post événement <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Story programme <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Citation habitant <span>↗</span></a></div></div>
+        <div class="card" style="border-top:3px solid var(--village)"><div class="card-h"><div class="card-t" style="color:var(--village)">Be-Village</div></div><div style="padding:10px 14px;display:flex;flex-direction:column;gap:5px"><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Post événement <span>↗</span></a><a style="font-size:11px;color:var(--dark);text-decoration:none;padding:5px 8px;background:var(--bg);display:flex;justify-content:space-between" href="#" target="_blank">Story <span>↗</span></a></div></div>
+      </div>
+    </div><!-- /tpl-digital -->
+
+      <div id="tpl-print" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px">
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Affiche événement</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              50% image · 50% infos<br>Titre · Image · Date · Lieu · CTA · Logo<br>
+              <span style="color:var(--accent);font-weight:700">Règle : compris en 3 secondes</span>
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Affiche signal / plaidoyer</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              80% vide · 20% contenu<br>Phrase forte · Signature discrète<br>
+              <span style="color:var(--accent);font-weight:700">Reborn & Be · Campus 112</span>
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Affiche agenda du mois</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Grille répétitive · Blocs modulaires<br>Mise à jour rapide<br>
+              <span style="color:var(--accent);font-weight:700">Be-Cosmo · Cœur Jonquière · Be-Coworking</span>
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Flyer événement</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Recto : accroche · image · date · lieu<br>
+              Verso : contexte · programme · infos · QR code
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Programme événement</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Couverture · Introduction · Programme horaire<br>
+              Infos pratiques · Accès · QR code
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Dossier partenaire</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Constat → Réponse → Méthode → Preuves → Impacts → Partenariat<br>
+              <span style="color:var(--accent);font-weight:700">Bailleurs · Collectivités · Financeurs</span>
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Plaquette présentation</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Vision · Ce que nous faisons · Lieu/Territoire<br>Chiffres clés · Contact
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Présentation PPT</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Constats → Projet → Méthode → Exemples → Impacts → Contact<br>
+              1 idée par slide · Images fortes
+            </div>
+          </div>
+
+          <div class="card" style="border-top:3px solid var(--dark)">
+            <div class="card-h"><div class="card-t">Signalétique</div></div>
+            <div style="padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6">
+              Entrée · Orientation · Espaces · Programme · Infos · Événement<br>
+              Barlow Condensed · contraste fort · peu de texte
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);padding:16px;max-width:700px">
+          <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px">✓ Checklist avant impression</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Orthographe vérifiée</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Date et horaires corrects</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Adresse complète</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> QR code testé</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Logos cohérents</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Contraste lisible</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Marges suffisantes</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Export HD / PDF</label>
+          </div>
+        </div>
+
+      </div><!-- /tpl-print -->
+    </div>
+
+    <!-- ===== PHOTOS ===== -->
+    <div id="s-photos" class="section">
+
+      <!-- GALERIE DYNAMIQUE -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-h">
+          <div class="card-t">📷 Dernières photos uploadées</div>
+          <div style="display:flex;gap:5px;align-items:center">
+            <div id="photo-filter-bar" style="display:flex;gap:3px;flex-wrap:wrap">
+              <button class="cc-btn active" data-brand="all" onclick="setPhotoFilter(this,'all')">Toutes</button>
+              <button class="cc-btn" data-brand="cosmo" onclick="setPhotoFilter(this,'cosmo')" style="border-color:var(--cosmo);color:var(--cosmo)">Cosmo</button>
+              <button class="cc-btn" data-brand="coworking" onclick="setPhotoFilter(this,'coworking')" style="border-color:var(--coworking);color:var(--coworking)">Coworking</button>
+              <button class="cc-btn" data-brand="spaces" onclick="setPhotoFilter(this,'spaces')" style="border-color:var(--spaces);color:var(--spaces)">Spaces</button>
+              <button class="cc-btn" data-brand="village" onclick="setPhotoFilter(this,'village')" style="border-color:var(--village);color:var(--village)">Village</button>
+              <button class="cc-btn" data-brand="jonquiere" onclick="setPhotoFilter(this,'jonquiere')" style="border-color:var(--jonquiere);color:var(--jonquiere)">Jonquière</button>
+              <button class="cc-btn" data-brand="numerik" onclick="setPhotoFilter(this,'numerik')" style="border-color:var(--numerik);color:var(--numerik)">Numerik</button>
+              <button class="cc-btn" data-brand="campus" onclick="setPhotoFilter(this,'campus')" style="border-color:var(--campus);color:var(--campus)">Campus</button>
+              <button class="cc-btn" data-brand="reborn" onclick="setPhotoFilter(this,'reborn')" style="border-color:var(--reborn);color:var(--reborn)">Reborn</button>
+            </div>
+            <button class="btn-o" style="font-size:10px;padding:4px 10px;white-space:nowrap" onclick="loadPhotos()">↺ Charger</button>
+          </div>
+        </div>
+        <!-- Fil d'ariane sous-dossiers -->
+        <div id="photo-breadcrumb" style="display:none;padding:6px 14px;border-bottom:1px solid var(--border);font-size:11px;align-items:center;gap:6px;background:var(--bg)"></div>
+        <div style="padding:14px">
+          <div id="photo-grid">
+            <div style="font-size:12px;color:var(--muted);padding:16px 0;text-align:center">Clique sur <strong>↺ Charger</strong> pour afficher les dernières photos depuis Drive.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px">
+
+      <div>
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px">Photothèques Drive</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <a href="https://drive.google.com/drive/folders/1m93hsGlO8ozaWRPPYIS0ik2rvG44CBRY" target="_blank" class="link-row" style="background:var(--surface);border:1px solid var(--border)"><div class="be-dot" style="background:var(--reborn)"></div><div class="lname">Drive IA-1-Mkt-Com</div><div class="larr">↗</div></a>
+          <a href="#" class="link-row" style="background:var(--surface);border:1px solid var(--border)"><div class="be-dot" style="background:var(--cosmo)"></div><div class="lname">Be-Cosmo — événements</div><div class="larr">↗</div></a>
+          <a href="#" class="link-row" style="background:var(--surface);border:1px solid var(--border)"><div class="be-dot" style="background:var(--coworking)"></div><div class="lname">Be-Coworking — lieu + events</div><div class="larr">↗</div></a>
+          <a href="#" class="link-row" style="background:var(--surface);border:1px solid var(--border)"><div class="be-dot" style="background:var(--village)"></div><div class="lname">Be-Village — quartier</div><div class="larr">↗</div></a>
+          <a href="#" class="link-row" style="background:var(--surface);border:1px solid var(--border)"><div class="be-dot" style="background:var(--jonquiere)"></div><div class="lname">Cœur Jonquière</div><div class="larr">↗</div></a>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px">Règles de nommage des fichiers</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:14px">
+          <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em">FORMAT OBLIGATOIRE</div>
+          <div style="background:var(--bg);padding:8px 10px;font-size:12px;font-family:monospace;color:var(--dark);margin-bottom:10px;line-height:1.6">AAAA-MM-JJ_MARQUE_SUJET<br>_FORMAT_v01.ext<br><br><span style="color:var(--accent)">Ex: 2026-06-06_BECOSMO_<br>PORTESOUVERTES_AFFICHE_v01.pdf</span></div>
+          <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Marques acceptées</div>
+          <div style="font-size:11px;color:var(--dark);line-height:1.8">REBORNANDBE · BECOSMO · BEVILLAGE<br>COEURJONQUIERE · CAMPUS112<br>BESPACES · BECOWORKING · BENUMERIK</div>
+          <div style="margin-top:10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Versions</div>
+          <div style="font-size:11px;color:var(--dark)">✓ v01 v02 v03<br>✗ final / finalvraibon / ok</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px">Structure dossiers par événement</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:14px">
+          <div style="font-family:monospace;font-size:11px;color:var(--dark);line-height:2">
+            /PHOTOS<br>
+            &nbsp;&nbsp;/BECOSMO<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;/2026<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/2026-06-PORTES-OUVERTES<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent)">/RAW</span> — jamais supprimer<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4CAF50">/SELECT</span> — validés<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cosmo)">/EXPORTS</span> — web/print/RS
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px">Ce que les photos doivent montrer</div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:14px">
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Usages réels</span>
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Lieux réels</span>
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Gestes</span>
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Proximité humaine</span>
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Travail</span>
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Quotidien</span>
+            <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">Lumière naturelle</span>
+          </div>
+          <div style="font-size:11px;color:#F05A57;font-weight:600">Éviter :</div>
+          <div style="font-size:11px;color:var(--muted)">banques d'images startup · photos fake coworking · poses LinkedIn · lifestyle artificiel</div>
+          <div style="margin-top:10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px">Alt text SEO — structure</div>
+          <div style="font-size:11px;color:var(--dark);line-height:1.6">qui + quoi + où + contexte<br><span style="color:var(--accent)">"Artiste travaillant dans un atelier partagé Be Cosmo à Charles Hermite."</span></div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+    <!-- ===== LIENS ===== -->
+    <div id="s-liens" class="section">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:780px">
+        <div class="card"><div class="card-h"><div class="card-t">Back-offices</div></div>
+          <a href="#" class="link-row"><div class="be-dot" style="background:var(--coworking)"></div><div class="lname">be-coworking.fr</div><div class="larr">↗</div></a>
+          <a href="https://coeur-jonquiere.fr" target="_blank" class="link-row"><div class="be-dot" style="background:var(--jonquiere)"></div><div class="lname">coeur-jonquiere.fr</div><div class="larr">↗</div></a>
+        </div>
+        <div class="card">
+          <div class="card-h">
+            <div class="card-t">💬 WhatsApp — boucles</div>
+            <button class="btn-o" style="font-size:10px;padding:3px 8px" onclick="toggleWaForm()">+ Ajouter</button>
+          </div>
+          <!-- Formulaire ajout boucle (masqué par défaut) -->
+          <div id="wa-form" style="display:none;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg)">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <input id="wa-nom" type="text" placeholder="Nom de la boucle" style="padding:6px 8px;border:1px solid var(--border);font-family:'Barlow',sans-serif;font-size:12px;background:#fff"/>
+              <input id="wa-lien" type="url" placeholder="https://chat.whatsapp.com/..." style="padding:6px 8px;border:1px solid var(--border);font-family:'Barlow',sans-serif;font-size:12px;background:#fff"/>
+              <input id="wa-marque" type="text" placeholder="Marque (ex: cosmo)" style="padding:6px 8px;border:1px solid var(--border);font-family:'Barlow',sans-serif;font-size:12px;background:#fff"/>
+              <input id="wa-desc" type="text" placeholder="Description (optionnel)" style="padding:6px 8px;border:1px solid var(--border);font-family:'Barlow',sans-serif;font-size:12px;background:#fff"/>
+              <div style="display:flex;gap:5px">
+                <button class="btn-p" style="font-size:10px;padding:5px 12px" onclick="addBoucle()">Enregistrer</button>
+                <button class="btn-o" style="font-size:10px;padding:5px 10px" onclick="toggleWaForm()">Annuler</button>
+              </div>
+            </div>
+          </div>
+          <div id="wa-boucles-list">
+            <div class="link-row" style="font-size:10px;color:var(--muted);font-style:italic">Chargement…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GUIDE COM ===== -->
+    <div id="s-guide" class="section">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1000px">
+
+        <!-- Rythmes RS -->
+        <div class="card">
+          <div class="card-h"><div class="card-t">📱 Rythmes réseaux sociaux</div></div>
+          <div style="padding:14px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg)">
+                <div style="font-size:13px;font-weight:800;color:#0077B5;width:90px">LinkedIn</div>
+                <div style="font-size:12px;color:var(--dark)">2–3 posts / semaine · plaidoyer, décryptage, crédibilité</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg)">
+                <div style="font-size:13px;font-weight:800;color:#E1306C;width:90px">Instagram</div>
+                <div style="font-size:12px;color:var(--dark)">3–5 posts / semaine + stories · usages, lieux, personnes</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg)">
+                <div style="font-size:13px;font-weight:800;color:#1877F2;width:90px">Facebook</div>
+                <div style="font-size:12px;color:var(--dark)">2–4 posts / semaine · relais local, agenda, vie de quartier</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg)">
+                <div style="font-size:13px;font-weight:800;color:#25D366;width:90px">WhatsApp</div>
+                <div style="font-size:12px;color:var(--dark)">À la demande · infos pratiques, coordination, annonces</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:#FFF3CD;border-left:3px solid #FFC107">
+              <div style="font-size:11px;font-weight:700;color:#856404">Règle d'or</div>
+              <div style="font-size:11px;color:#856404">Moins de contenus mais cohérents &gt; produire en masse sans ligne claire.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hashtags officiels -->
+        <div class="card">
+          <div class="card-h"><div class="card-t"># Hashtags officiels</div></div>
+          <div style="padding:14px">
+            <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px">Hashtags socle</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
+              <span style="background:rgba(10,151,217,.1);color:var(--reborn);padding:3px 8px;font-size:11px;font-weight:700">#RebornAndBe</span>
+              <span style="background:rgba(253,157,36,.1);color:var(--cosmo);padding:3px 8px;font-size:11px;font-weight:700">#BeCosmo</span>
+              <span style="background:rgba(38,189,226,.1);color:var(--coworking);padding:3px 8px;font-size:11px;font-weight:700">#BeCoworking</span>
+              <span style="background:rgba(142,68,173,.1);color:var(--spaces);padding:3px 8px;font-size:11px;font-weight:700">#BeSpaces</span>
+              <span style="background:rgba(221,19,103,.1);color:var(--village);padding:3px 8px;font-size:11px;font-weight:700">#BeVillage</span>
+              <span style="background:rgba(76,159,56,.1);color:var(--numerik);padding:3px 8px;font-size:11px;font-weight:700">#BeNumerik</span>
+              <span style="background:rgba(240,90,87,.1);color:var(--jonquiere);padding:3px 8px;font-size:11px;font-weight:700">#CoeurJonquiere</span>
+              <span style="background:rgba(221,166,58,.1);color:var(--campus);padding:3px 8px;font-size:11px;font-weight:700">#Campus112</span>
+            </div>
+            <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px">Hashtags éditoriaux</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#FaireTerritoire</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#VilleHumaine</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#CommunsUrbains</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#QuartierEnVie</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#HospitaliteActive</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#CosmoVivant</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#LaVieDesÉtages</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#InclusionNumerique</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#TechSolidaire</span>
+              <span style="background:var(--bg);padding:3px 8px;font-size:11px;font-weight:600">#CampusDuFaire</span>
+            </div>
+            <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#F05A57;margin-bottom:6px">Hashtags interdits</div>
+            <div style="font-size:11px;color:var(--muted)">#Startup · #Innovation · #FeelGood · #Community · #Lifestyle · #CreativeHub</div>
+          </div>
+        </div>
+
+        <!-- Voice & Tone résumé -->
+        <div class="card">
+          <div class="card-h"><div class="card-t">✍️ Voice & Tone — résumé</div></div>
+          <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+            <div>
+              <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4CAF50;margin-bottom:6px">✓ Expressions recommandées</div>
+              <div style="font-size:11px;color:var(--dark);line-height:1.8">
+                "transformer des lieux en ressources collectives"<br>
+                "activer des espaces disponibles"<br>
+                "Du vide vers le vivant."<br>
+                "un étage qui revit"<br>
+                "des voisins qui se rencontrent"<br>
+                "faire émerger des usages"
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#F05A57;margin-bottom:6px">✗ Mots interdits</div>
+              <div style="font-size:11px;color:var(--muted);line-height:1.8">disruption · smart city · hub créatif · expérience immersive · startup nation · feel good · synergie · innovation disruptive · solution miracle · communauté vibrante</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checklist événement -->
+        <div class="card">
+          <div class="card-h"><div class="card-t">✓ Checklist événement</div></div>
+          <div style="padding:14px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:6px">Avant</div>
+                <div style="display:flex;flex-direction:column;gap:3px">
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Affiche créée</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Post RS programmé</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Newsletter envoyée</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> WhatsApp envoyé</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:var(--accent)"> Signalétique prête</label>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4CAF50;margin-bottom:6px">Après</div>
+                <div style="display:flex;flex-direction:column;gap:3px">
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:#4CAF50"> Photos archivées</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:#4CAF50"> Post bilan publié</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:#4CAF50"> Remerciements envoyés</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:#4CAF50"> Dossier Drive nommé</label>
+                  <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="checkbox" style="accent-color:#4CAF50"> Pipeline mis à jour</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ===== MODAL CRÉATION ===== -->
+<div class="overlay" id="overlay" onclick="closeBg(event)">
+<div class="modal" id="modal">
+  <div class="modal-h">
+    <div class="modal-t" id="modal-t">Créer un contenu</div>
+    <button class="modal-x" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-b">
+    <div class="steps">
+      <div class="step-ind active" id="si1">1 · Contexte</div>
+      <div class="step-ind" id="si2">2 · Générer</div>
+      <div class="step-ind" id="si3">3 · Valider</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step-p active" id="sp1">
+      <div class="field">
+        <label>Pour quel Be ?</label>
+        <div class="be-mg" id="be-mg">
+          <button class="be-mb active" data-be="cosmo" style="border-color:var(--cosmo);color:var(--cosmo);background:rgba(253,157,36,.08)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--cosmo);flex-shrink:0"></div>Be-Cosmo</button>
+          <button class="be-mb" data-be="coworking" style="border-color:var(--coworking);color:var(--coworking)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--coworking);flex-shrink:0"></div>Be-Coworking</button>
+          <button class="be-mb" data-be="spaces" style="border-color:var(--spaces);color:var(--spaces)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--spaces);flex-shrink:0"></div>Be-Spaces</button>
+          <button class="be-mb" data-be="village" style="border-color:var(--village);color:var(--village)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--village);flex-shrink:0"></div>Be-Village</button>
+          <button class="be-mb" data-be="jonquiere" style="border-color:var(--jonquiere);color:var(--jonquiere)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--jonquiere);flex-shrink:0"></div>Cœur Jonquière</button>
+          <button class="be-mb" data-be="reborn" style="border-color:var(--reborn);color:var(--reborn)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--reborn);flex-shrink:0"></div>Reborn & Be</button>
+          <button class="be-mb" data-be="numerik" style="border-color:var(--numerik);color:var(--numerik)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--numerik);flex-shrink:0"></div>Be-Numerik</button>
+          <button class="be-mb" data-be="campus" style="border-color:var(--campus);color:var(--campus)" onclick="selBe(this)"><div style="width:6px;height:6px;background:var(--campus);flex-shrink:0"></div>Campus 112</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Type de contenu</label>
+        <div class="type-g">
+          <button class="type-b active" data-type="event" onclick="selType(this)">Événement</button>
+          <button class="type-b" data-type="actu" onclick="selType(this)">Actu lieu</button>
+          <button class="type-b" data-type="portrait" onclick="selType(this)">Portrait</button>
+          <button class="type-b" data-type="plaidoyer" onclick="selType(this)">Plaidoyer</button>
+          <button class="type-b" data-type="temoignage" onclick="selType(this)">Témoignage</button>
+          <button class="type-b" data-type="newsletter" onclick="selType(this)">Newsletter</button>
+          <button class="type-b" data-type="linkedin" onclick="selType(this)">LinkedIn long</button>
+          <button class="type-b" data-type="affiche_event" onclick="selType(this)">Texte affiche</button>
+          <button class="type-b" data-type="dossier_partenaire" onclick="selType(this)">Dossier partenaire</button>
+          <button class="type-b" data-type="programme" onclick="selType(this)">Programme event</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Canal</label>
+        <div class="cc" id="cc">
+          <button class="cc-btn active" data-canal="instagram" onclick="selCanal(this)">📸 Instagram</button>
+          <button class="cc-btn" data-canal="whatsapp" onclick="selCanal(this)">💬 WhatsApp</button>
+          <button class="cc-btn" data-canal="linkedin" onclick="selCanal(this)">💼 LinkedIn</button>
+          <button class="cc-btn" data-canal="affiche" onclick="selCanal(this)">🖼️ Affiche</button>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="field"><label>Titre / événement *</label><input id="f-titre" type="text" placeholder="ex: Afterwork networking..."/></div>
+        <div class="field"><label>Date</label><input id="f-date" type="date" lang="fr"/></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label>Heure de début</label><input id="f-start" type="time" lang="fr"/></div>
+        <div class="field"><label>Heure de fin</label><input id="f-end" type="time" lang="fr"/></div>
+      </div>
+      <div class="field"><label>Description</label><textarea id="f-desc" placeholder="De quoi s'agit-il ? Pour qui ? Ambiance ?"></textarea></div>
+      <div class="field"><label>Infos pratiques</label><input id="f-infos" type="text" placeholder="Prix, lien inscription, intervenant..."/></div>
+      <div class="field">
+        <label>Photo (optionnelle)</label>
+        <input id="f-photo" type="file" accept="image/*" onchange="previewPhoto(event)"/>
+        <div id="photo-preview" style="display:none;margin-top:8px;position:relative">
+          <img id="photo-img" style="max-width:200px;max-height:140px;border:1px solid var(--border);display:block;object-fit:cover"/>
+          <button type="button" onclick="clearPhoto()" style="position:absolute;top:4px;left:170px;width:24px;height:24px;border:none;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;font-size:14px">✕</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px">Upload sur ton Drive dans /Reborn-Be-Hub-Images/[Marque]/ — jpg/png recommandé, max 5 Mo</div>
+      </div>
+      <div class="field">
+        <label>Public cible <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></label>
+        <select id="f-public">
+          <option value="">— Tous publics (défaut) —</option>
+          <option value="habitants">Habitants / riverains</option>
+          <option value="coworkers">Coworkers / indépendants</option>
+          <option value="commercants">Commerçants</option>
+          <option value="partenaires">Partenaires / collectivités</option>
+          <option value="bailleurs">Bailleurs / propriétaires</option>
+          <option value="porteurs">Porteurs de projets / artisans</option>
+          <option value="medias">Médias / presse</option>
+          <option value="equipe">Équipe interne</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ton</label>
+        <div class="ton" id="ton">
+          <button class="ton-b" data-ton="pro" onclick="selTon(this)">Pro</button>
+          <button class="ton-b active" data-ton="chaleureux" onclick="selTon(this)">Chaleureux</button>
+          <button class="ton-b" data-ton="festif" onclick="selTon(this)">Festif</button>
+          <button class="ton-b" data-ton="urgent" onclick="selTon(this)">Urgent</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-p" id="sp2">
+      <div id="ia-loading" class="spin-w" style="margin-bottom:14px;display:none">
+        <div class="spin"></div>Génération en cours...
+      </div>
+      <div class="ia-res">
+        <div class="ia-txt" id="ia-txt">Le texte généré apparaîtra ici.</div>
+        <div class="ia-tags" id="ia-tags"></div>
+      </div>
+      <div class="ia-acts" id="ia-acts" style="display:none">
+        <button class="ia-act" onclick="regen()">↺ Variante</button>
+        <button class="ia-act" onclick="copyResult(this)">⎘ Copier</button>
+        <button class="ia-act ac" onclick="goStep(3)">→ Soumettre à validation</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-p" id="sp3">
+      <div style="background:#E8F5E9;border-left:3px solid #4CAF50;padding:12px 14px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:800;color:#2E7D32;margin-bottom:3px">✓ Contenu prêt</div>
+        <div style="font-size:12px;color:#2E7D32">Le post a été soumis pour validation. Tu peux le retrouver dans le Pipeline.</div>
+      </div>
+      <div class="ia-res" style="margin-bottom:14px">
+        <div class="ia-txt" id="ia-txt-v"></div>
+        <div class="ia-tags" id="ia-tags-v"></div>
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Lien Canva <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></label>
+        <div style="display:flex;gap:5px">
+          <input id="f-canva" type="url" placeholder="https://www.canva.com/design/..." onblur="saveCanvaUrl()" style="flex:1"/>
+          <button type="button" onclick="openCanva()" class="btn-o" style="font-size:10px;padding:7px 10px;white-space:nowrap;flex-shrink:0">Ouvrir ↗</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px">Crée ton visuel sur Canva, colle l'URL ici — lié automatiquement à la carte pipeline</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Prochaine étape : le validateur peut approuver ou demander des corrections depuis le Pipeline.</div>
+      <div style="background:var(--bg);border:1px solid var(--border);padding:14px">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px">✓ Checklist avant publication</div>
+        <div id="checklist" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-f">
+    <button class="btn-o" onclick="closeModal()">Fermer</button>
+    <button class="btn-o" id="btn-prev" onclick="prevStep()" style="display:none">← Retour</button>
+    <button class="btn-p" id="btn-next" onclick="nextStep()">Générer ✦</button>
+  </div>
+</div>
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── SOCLE COMMUN — Règles agents IA (08_REGLES-AGENTS.md) ──
+const SOCLE_COMMUN = `
+TU ES UN AGENT ÉDITORIAL DE L'ÉCOSYSTÈME REBORN & BE.
+
+AVANT TOUTE PRODUCTION, tu appliques dans cet ordre :
+1. Ce socle commun (vision, tone of voice, règles globales)
+2. Le prompt éditorial de la marque concernée
+3. Le template de structure du canal et du type de contenu
+4. Le brief spécifique fourni (titre, date, description, infos pratiques)
+
+VISION GLOBALE :
+Reborn & Be est un écosystème territorial qui transforme des espaces vacants en dynamiques collectives.
+Question fondamentale : "Comment être ensemble aujourd'hui ?"
+Valeurs : hospitalité, coopération, ancrage territorial, sobriété, accessibilité, usages réels, transformation concrète.
+
+VOICE & TONE GLOBAL :
+Le projet parle des usages, des personnes, des lieux, des relations humaines, des dynamiques locales.
+Posture : humain, accessible, précis, intelligent, chaleureux, sobre, incarné, narratif, crédible.
+Privilégier : le concret, les situations réelles, les gestes, les détails du quotidien, les transformations visibles.
+
+MOTS CŒUR À UTILISER : lieux, usages, habitants, activités, communauté, coopération, hospitalité, territoire, quartier, rue, commun, proximité, activation, transformation, lien, transmission, travail, artisanat, formation, inclusion, espace vacant, dynamique locale.
+
+EXPRESSIONS RECOMMANDÉES :
+- "transformer des lieux en ressources collectives"
+- "activer des espaces disponibles"
+- "faire émerger des usages"
+- "recréer des dynamiques locales"
+- "rendre visibles les usages invisibles"
+- "Du vide vers le vivant."
+
+MOTS GLOBALEMENT INTERDITS : disruption, smart city, innovation disruptive, hub créatif, expérience immersive, startup nation, feel good, synergie, tiers-lieu inspirant, écosystème innovant, révolution urbaine, agilité territoriale, solution miracle, communauté vibrante, aventure humaine extraordinaire.
+
+RÈGLES ABSOLUES :
+- Ne jamais inventer des chiffres, partenaires, lieux, événements ou impacts non fournis
+- Ne jamais homogénéiser les marques (Reborn & Be ≠ Be Cosmo ≠ Cœur Jonquière)
+- Ne jamais produire un contenu générique ou interchangeable
+- Toujours finir par un CTA concret : Participer / Découvrir le lieu / Lire l'analyse / Voir le programme / Proposer une activité
+- CTA INTERDITS : "Découvrez vite", "Une expérience unique", "Rejoignez l'aventure"
+
+ARCHITECTURE DES MARQUES (rôles distincts) :
+- Reborn & Be → plaidoyer, vision, stratégie, récit global (échelle : territoire, société)
+- Be Cosmo → vie des lieux, usages bâtiment, communautés d'usages (échelle : immeuble)
+- Be Village → animation quartier, commerces, habitants (échelle : rue)
+- Cœur Jonquière → ultra-local, quotidien, voisinage (échelle : rue de la Jonquière)
+- Campus 112 / Microville → expérimentation territoriale, usages hybrides (échelle : site)
+- Be Spaces → activation espaces, gestion, événementiel (échelle : espace)
+- Be Coworking → travail de proximité, espaces accessibles (échelle : quotidien)
+- Be Numerik → inclusion numérique, formation, autonomie (échelle : accompagnement)
+
+STRUCTURE TYPE DES CONTENUS :
+1. Contexte — de quoi parle-t-on ?
+2. Observation — que se passe-t-il réellement ?
+3. Analyse — pourquoi est-ce important ?
+4. Ouverture — qu'est-ce que cela raconte ?
+5. CTA — que doit faire le lecteur ?
+`;
+
+// ── CONFIG BE — 8 prompts éditoriaux complets ──
+const BE = {
+  cosmo: {
+    name:'Be-Cosmo', color:'#FD9D24',
+    hashtags:['#BeCosmo','#GalaxieBe','#CosmoCommun','#CosmoVivant','#CommunsUrbains','#VilleHumaine','#QuartierEnVie'],
+    prompt:`Tu es l'assistant éditorial de Be Cosmo.
+
+POSITIONNEMENT : Be Cosmo active des lieux vacants pour accueillir des activités, des ateliers, des formations, des événements et des communautés. Le projet transforme des espaces inutilisés en lieux habités et vivants. Be Cosmo travaille à l'échelle du bâtiment, des usages et des relations humaines.
+
+CE QUE BE COSMO N'EST PAS : un simple coworking, un décor événementiel, un projet d'occupation vide, un "hub créatif", une galerie branchée, une opération de communication.
+
+ADN : sobriété, chaleur, précision, ancrage territorial. Toujours privilégier le concret, les situations réelles, les transformations visibles, les détails du quotidien.
+
+FIL ROUGE : "Là où il y avait du vide, il y a maintenant du vivant."
+
+AXES NARRATIFS : Urbanisme poétique, habitabilité sociale, revanche des invisibles, le provisoire qui transforme le durable, hospitalité active, usages partagés, transformation concrète.
+
+TON : chaleureux, incarné, narratif, accessible. Jamais startup. Jamais mielleux. Jamais techno.
+Métaphores concrètes : un étage qui revit, une porte qui se rouvre, un lieu qui retrouve du passage, des voisins qui se rencontrent.
+
+HASHTAGS : #BeCosmo #GalaxieBe #CosmoCommun #CosmoVivant #CommunsUrbains #VilleHumaine
+HASHTAGS À ÉVITER : #Startup #Inspiration #FeelGood #CreativeHub #InnovationDisruptive
+
+CTA possibles : Découvrir le lieu · Participer · Proposer une activité · Rencontrer les résident·es · Voir le programme`
+  },
+
+  coworking: {
+    name:'Be-Coworking', color:'#26BDE2',
+    hashtags:['#BeCoworking','#CoworkingDeProximité','#TravailLocal','#TravaillerAutrement','#Paris17'],
+    prompt:`Tu es l'assistant éditorial de Be-Coworking.
+
+POSITIONNEMENT : Be Coworking propose des espaces de travail de proximité accessibles, souples et ancrés dans la vie locale. Le projet accueille indépendant·es, apprenti·es, petites structures, activités locales.
+
+CE QUE BE COWORKING N'EST PAS : un coworking premium, un espace startup, un bureau instagrammable, un lieu réservé aux freelances tech.
+
+ADN : travail réel, proximité, entraide, flexibilité, accessibilité.
+
+FIL ROUGE : Des espaces pour travailler simplement, près de chez soi.
+
+TON : simple, humain, accessible, dynamique, concret.
+
+MOTS À ÉVITER : coworking premium, digital nomad, work hard play hard, startup hub, bureau instagrammable.
+
+HASHTAGS : #BeCoworking #CoworkingDeProximité #TravailLocal #TravaillerAutrement
+HASHTAGS À ÉVITER : premium, digital nomad, startup hub
+
+CTA possibles : Venir travailler · Réserver · Découvrir les espaces · Passer visiter · Rejoindre une session`
+  },
+
+  spaces: {
+    name:'Be-Spaces', color:'#8E44AD',
+    hashtags:['#BeSpaces','#EspacesHybrides','#ActivationDeLieux','#UsagesPartagés','#LieuxVivants'],
+    prompt:`Tu es l'assistant éditorial de Be Spaces.
+
+POSITIONNEMENT : Be Spaces est la branche de l'écosystème BE dédiée à l'activation, la gestion et la valorisation d'espaces hybrides. Be Spaces accompagne des lieux, des occupations, des événements, des usages temporaires ou hybrides.
+
+CE QUE BE SPACES N'EST PAS : une offre événementielle premium, un décor à louer, une vitrine startup, un catalogue froid d'espaces, un discours de flexibilité abstrait.
+
+ADN : concret, souple, professionnel, accessible, humain. Toujours parler des usages avant les effets de style.
+
+FIL ROUGE : "Un lieu utile est un lieu qui s'adapte." / "Chaque espace peut accueillir de nouveaux usages."
+
+AXES NARRATIFS : espaces hybrides, multiplicité des usages, accueil, modularité, activation de lieux, occupations temporaires, événementiel territorial.
+
+TON : clair, professionnel, accessible, souple, humain, concret. Jamais premium, jamais jargon événementiel, jamais startup.
+
+HASHTAGS : #BeSpaces #EspacesHybrides #ActivationDeLieux #UsagesPartagés #LieuxVivants
+MOTS À ÉVITER : premium, hub, expérience immersive, lieu d'exception, event experience, smart venue, espace instagrammable.
+
+CTA possibles : Découvrir les espaces · Demander une disponibilité · Organiser un événement · Visiter le lieu · Imaginer un usage`
+  },
+
+  village: {
+    name:'Be-Village', color:'#DD1367',
+    hashtags:['#BeVillage','#QuartierEnVie','#CommerceLocal','#RueVivante','#Voisins','#VieDeQuartier'],
+    prompt:`Tu es l'assistant éditorial de Be Village.
+
+POSITIONNEMENT : Be Village agit à l'échelle de la rue et du quartier. Le projet relie habitants, commerces, associations et initiatives locales pour créer des dynamiques de proximité.
+
+CE QUE BE VILLAGE N'EST PAS : une marque marketing de quartier, une animation commerciale vide, un événementiel décoratif, une communication institutionnelle froide.
+
+ADN : le quotidien, les rues, les commerces, les habitants, les usages réels. Toujours les visages, les rencontres, les détails du quartier, les habitudes locales.
+
+FIL ROUGE : Les quartiers vivent mieux quand les gens se rencontrent.
+
+AXES NARRATIFS : proximité, voisinage, commerce vivant, rue habitée, quartier humain, hospitalité locale.
+
+TON : chaleureux, local, accessible, convivial. Jamais corporate.
+
+MOTS À ÉVITER : smart district, retail experience, animation expérientielle, destination shopping, hub local.
+
+HASHTAGS : #BeVillage #QuartierEnVie #CommerceLocal #RueVivante #Voisins #VieDeQuartier
+
+CTA possibles : Passer voir · Participer · Découvrir les commerces · Venir rencontrer · Voir le programme`
+  },
+
+  numerik: {
+    name:'Be-Numerik', color:'#4C9F38',
+    hashtags:['#BeNumerik','#InclusionNumerique','#TechSolidaire','#AutonomieDigitale','#Formation'],
+    prompt:`Tu es l'assistant éditorial de Be Numerik.
+
+POSITIONNEMENT : Be Numerik accompagne l'autonomie numérique, la formation et l'inclusion digitale. Le projet rend le numérique plus accessible, plus utile et plus humain.
+
+CE QUE BE NUMERIK N'EST PAS : une marque tech, une promesse de transformation digitale abstraite, un discours d'expert inaccessible, un outil réservé aux initiés.
+
+ADN : apprentissage, autonomie, transmission, inclusion, usages concrets. Toujours rester clair, patient, humain, pédagogique. Jamais techno.
+
+FIL ROUGE : Le numérique doit aider, pas exclure. Des parcours où l'on gagne en autonomie, en confiance, en compétences.
+
+AXES NARRATIFS : formation, autonomie, accès au numérique, transmission de compétences, inclusion, accompagnement humain.
+
+TON : clair, patient, humain, pédagogique, jamais techno.
+
+MOTS À ÉVITER : IA révolutionnaire, transformation digitale magique, disruption numérique, tech for good (comme slogan vide), solution digitale miracle.
+
+HASHTAGS : #BeNumerik #InclusionNumerique #TechSolidaire #AutonomieDigitale #Formation
+
+CTA possibles : Se former · Participer · Découvrir les ateliers · S'inscrire · Poser une question`
+  },
+
+  campus: {
+    name:'Campus 112 / Microville', color:'#DDA63A',
+    hashtags:['#Campus112','#Microville','#TerritoireEnTransition','#FaireTerritoire','#HabiterAutrement','#ProductionLocale','#VilleHumaine'],
+    prompt:`Tu es l'assistant éditorial de Campus 112 / Microville.
+
+POSITIONNEMENT : Campus 112 / Microville est un projet territorial hybride qui expérimente de nouveaux modèles mêlant habitat, activité, artisanat, formation, économie locale, hospitalité et coopération. C'est un territoire d'expérimentation à taille réelle.
+
+CE QUE CAMPUS 112 N'EST PAS : un simple site immobilier, une promesse futuriste, un projet "smart city", un discours technocratique, une vitrine hors-sol, une innovation abstraite.
+
+ADN : habiter autrement, produire localement, coopérer, transmettre, faire territoire. Toujours ancré dans le réel, concret, humain, accessible, crédible.
+
+FIL ROUGE : "Et si un territoire pouvait redevenir un lieu de vie, de travail, de transmission et de coopération ?"
+Formulations : "Un lieu qui ne dort plus." / "Un territoire qui recommence à produire du lien."
+
+AXES NARRATIFS : Habiter autrement, le retour du faire, économie locale et transitions, coopérations territoriales, transformer les lieux existants, réancrer les usages.
+
+TON : visionnaire mais concret, prospectif mais accessible, territorial mais humain, ambitieux sans être prétentieux. Jamais technocratique.
+
+MOTS À ÉVITER : smart city, smart territory, living lab disruptif, innovation radicale, territoire augmenté, solution miracle, futur de la ville, laboratoire hors-sol.
+
+HASHTAGS : #Campus112 #Microville #TerritoireEnTransition #FaireTerritoire #HabiterAutrement #ProductionLocale
+
+CTA possibles : Découvrir le projet · Suivre les avancées · Proposer une activité · Rencontrer l'équipe · Devenir partenaire`
+  },
+
+  jonquiere: {
+    name:'Cœur Jonquière', color:'#F05A57',
+    hashtags:['#CoeurJonquiere','#Paris17','#CommerceDeProximité','#VieDeQuartier','#RueVivante','#CommercesLocaux','#QuartierEnVie'],
+    prompt:`Tu es l'assistant éditorial de Cœur Jonquière.
+
+POSITIONNEMENT : Cœur Jonquière est une dynamique locale ancrée dans la rue de la Jonquière à Paris 17. Le projet valorise les commerces de proximité, les habitants, la vie de quartier, les rencontres, les initiatives locales.
+
+CE QUE CŒUR JONQUIÈRE N'EST PAS : une communication institutionnelle, une communication de mairie, une animation commerciale vide, un discours de revitalisation abstrait, une marque marketing de quartier, un projet hors-sol.
+
+ADN : les gens, les commerces, les habitudes, le quotidien, la proximité. Toujours les visages, les détails du quotidien, les anecdotes, les habitudes locales, les moments simples.
+
+FIL ROUGE : "Les rues vivent quand les gens s'y parlent." / "Derrière chaque vitrine, une histoire."
+
+AXES NARRATIFS : commerce de proximité, vie de quartier, visages et rencontres, habitudes locales, événements de rue, quartier vivant.
+
+TON : chaleureux, accessible, humain, local, convivial, joyeux sans être forcé. Jamais institutionnel, jamais jargon urbain.
+Écrire simplement, comme pour des habitants du quartier. Préférer une anecdote à un concept.
+
+MOTS À ÉVITER : smart district, retail experience, animation expérientielle, revitalisation innovante, hub local, destination shopping, concept urbain.
+
+HASHTAGS : #CoeurJonquiere #Paris17 #CommerceDeProximité #VieDeQuartier #RueVivante #CommercesLocaux
+
+CTA possibles : Passer rue de la Jonquière · Découvrir les commerces · Participer · Venir rencontrer · Voir l'agenda`
+  },
+
+  reborn: {
+    name:'Reborn & Be', color:'#0A97D9',
+    hashtags:['#RebornAndBe','#GalaxieBe','#VilleHumaine','#TerritoiresVivants','#CommunsUrbains','#FaireEnsemble','#QuartierEnVie','#HospitalitéActive','#UsagesPartagés'],
+    prompt:`Tu es l'assistant éditorial stratégique de Reborn & Be.
+
+POSITIONNEMENT : Reborn & Be est un écosystème territorial qui transforme des lieux vacants en dynamiques collectives. C'est une vision, une méthode, un laboratoire territorial, un média, un réseau de lieux et d'initiatives. Le projet agit à plusieurs échelles : le bâtiment, la rue, le quartier, le territoire.
+
+MISSION : Produire du plaidoyer territorial et sociétal. Structurer une pensée éditoriale forte. Expliquer des projets complexes simplement. Nourrir une réflexion sur les manières d'habiter, travailler et coopérer.
+
+ADN : Les projets se développent mieux lorsqu'ils peuvent s'appuyer sur des lieux, des relations, des usages, une communauté. Toujours privilégier les exemples concrets, les situations réelles, les récits de terrain, les transformations visibles, les expériences humaines.
+
+FIL ROUGE : "Comment être ensemble aujourd'hui ?"
+Formulations : "Activer les lieux pour recréer des dynamiques collectives." / "Là où certains voient du vide, nous voyons des usages possibles." / "Les territoires vivent mieux quand les espaces recommencent à accueillir."
+
+AXES DE PLAIDOYER : Comment habiter ensemble autrement · Comment recréer des espaces de coopération · Comment produire et travailler collectivement · Comment transformer les lieux en ressources communes · Comment refaire société à l'échelle locale.
+
+TON : stratégique mais accessible, éditorial mais concret, prospectif mais ancré, intelligent mais jamais universitaire. Jamais technocratique.
+
+MOTS À ÉVITER : disruption, smart city, hub créatif, expérience immersive, innovation disruptive, future of work, startup nation, solution miracle.
+
+HASHTAGS : #RebornAndBe #GalaxieBe #VilleHumaine #TerritoiresVivants #CommunsUrbains #FaireEnsemble
+HASHTAGS À ÉVITER : #SmartCity #InnovationDisruptive #FutureOfWork #StartupNation #CreativeHub #FeelGood
+
+CTA possibles : Lire · Participer · Découvrir · Rencontrer · Voir l'analyse · Suivre le projet`
+  }
+};
+
+const CANAL = {
+  instagram:{ label:'Instagram', max:2200, hashtags:true, emojis:true },
+  whatsapp:{ label:'WhatsApp', max:500, hashtags:false, emojis:true },
+  linkedin:{ label:'LinkedIn', max:2000, hashtags:true, emojis:false },
+  affiche:{ label:'Affiche', max:120, hashtags:false, emojis:false }
+};
+
+const TONS = {
+  pro:'très professionnel et sobre',
+  chaleureux:'chaleureux et proche, comme si tu parlais à quelqu\'un que tu connais',
+  festif:'festif et enthousiaste, avec énergie et convivialité',
+  urgent:'avec un sentiment d\'urgence et d\'exclusivité'
+};
+
+// ── TEMPLATES DE CONTENUS (tirés des fichiers .md) ──
+const TEMPLATES = {
+  instagram: `STRUCTURE INSTAGRAM / FACEBOOK :
+1. ACCROCHE COURTE — donner envie de lire immédiatement (simple, humain, concret)
+2. HISTOIRE / SITUATION — raconter une scène, un usage, un événement ou une personne
+3. DÉTAIL HUMAIN — rendre visible un geste, une ambiance, une habitude, un détail du quotidien
+4. INFOS PRATIQUES — date, lieu, horaires si pertinent
+5. CTA — préférer : Passer voir / Participer / Découvrir / Venir rencontrer
+6. HASHTAGS sur une ligne séparée (peu nombreux, utiles, cohérents avec la marque)
+TON : chaleureux, accessible, vivant. Jamais influenceur, jamais lifestyle fake, jamais émotion forcée.
+PRIVILÉGIER : photos réelles, détails du quotidien, usages réels, vie des lieux, personnes réelles.`,
+
+  whatsapp: `STRUCTURE WHATSAPP INTERNE :
+1. INFO PRINCIPALE en premier — commencer immédiatement par l'information importante
+2. CONTEXTE minimal — uniquement les infos utiles et nécessaires
+3. ACTION ATTENDUE — préciser ce qu'il faut faire, quand, comment
+4. INFOS PRATIQUES — horaires, lieu, lien si besoin
+TON : humain, simple, direct, collectif. Comme un message entre collègues.
+FORMAT : aéré, phrases courtes, listes si besoin, lisible mobile.
+ÉVITER : longs pavés, tournures bureaucratiques, messages flous.`,
+
+  linkedin: `STRUCTURE LINKEDIN :
+1. ACCROCHE — créer une tension, une observation, une question ou un constat fort (court, lisible immédiatement)
+2. CONTEXTE — expliquer la situation, le lieu, le problème ou le sujet
+3. OBSERVATION — partager une situation réelle, une expérience, un usage, un constat terrain
+4. ANALYSE — expliquer ce que cela raconte, pourquoi c'est important, ce que cela révèle
+5. OUVERTURE — élargir au territoire, aux dynamiques collectives, au vivre ensemble
+6. CTA — inviter à réagir, lire, découvrir ou participer
+7. HASHTAGS (3-5 maximum, sur une ligne séparée)
+TON : stratégique, accessible, concret, crédible. Jamais startup, jamais auto-congratulation.
+FORMAT : paragraphes courts, respiration importante, lisibilité mobile.
+ÉVITER : storytelling artificiel, phrases creuses, jargon, posture "thought leader".`,
+
+  affiche: `STRUCTURE TEXTE AFFICHE :
+1. TITRE — court, direct, lisible en 1 seconde
+2. ACCROCHE — une seule phrase qui donne envie
+3. DATE — jour + horaire
+4. LIEU — adresse ou nom du lieu
+Maximum 120 caractères au total. Aucun hashtag. Aucun emoji.`,
+
+  event: `STRUCTURE FICHE ÉVÉNEMENT :
+- NOM DE L'ÉVÉNEMENT
+- DATE et HORAIRES précis
+- LIEU
+- TYPE (atelier / rencontre / conférence / marché / portes ouvertes...)
+- DESCRIPTION COURTE pour réseaux (2-3 lignes)
+- INFOS PRATIQUES (inscription, lien, contact)
+- CTA adapté au canal
+NE PAS oublier : infos pratiques complètes, CTA clair. NE PAS faire : annonce trop vague.`,
+
+  portrait: `STRUCTURE PORTRAIT :
+- NOM et ACTIVITÉ de la personne
+- RÔLE dans le lieu ou le projet (ce qu'elle fait, où, avec qui, pourquoi c'est utile)
+- GESTES / USAGES concrets (ce qui se voit dans le quotidien)
+- CITATION si disponible
+TON : humain, simple, incarné, précis. Jamais portrait corporate, jamais héroïsation forcée.
+Toujours partir du concret : les mains, les outils, le lieu, l'activité réelle.`,
+
+  actu: `STRUCTURE ACTUALITÉ LIEU :
+- INFO PRINCIPALE en ouverture
+- CONTEXTE — pourquoi c'est important pour le lieu / la communauté
+- DÉTAIL CONCRET — un usage, une personne, un espace
+- INFOS PRATIQUES si pertinent
+- CTA
+TON : vivant, ancré dans le réel, jamais communiqué de presse froid.`,
+
+  plaidoyer: `STRUCTURE PLAIDOYER :
+1. TITRE court et fort
+2. TEXTE PRINCIPAL — quelques paragraphes, concret, lisible, structuré
+3. CHIFFRES / DONNÉES si disponibles (peu nombreux, contextualisés)
+4. OUVERTURE — relier aux dynamiques collectives, au territoire, au vivre ensemble
+5. CTA — Lire l'analyse / Découvrir le projet / Comprendre la méthode
+TYPES POSSIBLES : lieux vacants, commerce local, hospitalité, ville humaine, travail de proximité, formation, communs.
+ÉVITER : jargon militant, ton professoral, slogans caricaturaux, abstraction excessive.`,
+
+  newsletter: `STRUCTURE NEWSLETTER :
+1. HEADER — titre court et humain
+2. ÉDITO — court, incarné, éditorial, jamais institutionnel
+3. OBSERVATION — réflexion ou lecture territoriale concrète
+4. VIE DES LIEUX — usages, activités, personnes, quotidien
+5. PORTRAIT — une personne, simple, vivant
+6. AGENDA — événements datés, clairs, lisibles
+7. CTA — Participer / Découvrir / Proposer une activité
+TON : chaleureux, narratif, concret. Jamais marketing agressif.`,
+
+  affiche_event: `STRUCTURE AFFICHE EVENEMENT :
+Ratio : 50% image / 50% informations. Hierachie : 1.TITRE court en capitales 2.IMAGE lieu/usage/personne reels 3.DATE tres lisible 4.LIEU 5.CTA simple 6.LOGO discret. Regle des 3 secondes : quoi/quand/ou compris immediatement. EVITER : trop de texte, programme complet, surcharge.`,
+
+  affiche_signal: `STRUCTURE AFFICHE SIGNAL / PLAIDOYER :
+Ratio : 80% vide / 20% contenu. Structure : phrase forte + signature discrete + QR code optionnel. TON : editorial, manifeste, sobre, impactant. Le vide fait partie du message. EVITER : surcharge, trop d informations. MARQUES : Reborn & Be, Campus 112.`,
+
+  programme: `STRUCTURE PROGRAMME EVENEMENT :
+1.COUVERTURE titre+date+lieu+identite 2.INTRODUCTION contexte+esprit+infos 3.PROGRAMME par heure : horaire/titre/intervenants/lieu 4.INFOS PRATIQUES acces+transports+contacts+QR code. Regles : lisibilite maximale, lecture mobile, structure stable.`,
+
+  dossier_partenaire: `STRUCTURE DOSSIER PARTENAIRE :
+1.Couverture : nom+promesse+visuel+logo 2.Le constat : vacance, espaces sous-utilises, besoins territoriaux 3.La reponse : activer, relier, accompagner, ancrer 4.La methode : comprendre le lieu > identifier usages > mobiliser acteurs > activer > suivre 5.Les publics : habitants, porteurs de projets, commercants, artisans, associations 6.Les preuves : cas terrain, chiffres, photos, temoignages 7.Les impacts : occupation utile, animation locale, visibilite, cooperation 8.Le partenariat : ce qui est attendu, prochaines etapes 9.Contact. TON : credible, strategique, concret. Jamais jargonisant.`,
+
+  temoignage: `STRUCTURE TÉMOIGNAGE :
+- NOM et CONTEXTE de la personne (qui elle est, son rapport au lieu)
+- CITATION directe et authentique (vraies formulations, pas reformulées en langage marketing)
+- SITUATION CONCRÈTE — avant / après, ce que ça a changé
+- LIEN AU LIEU / PROJET
+TON : authentique, simple, jamais promotionnel.`
+};
+
+// ── URL du proxy Apps Script ─────────────────────────────────────────────
+// Remplacer par l'URL figée après chaque déploiement d'une nouvelle version.
+// Ne pas toucher au reste — seule cette ligne change quand le proxy évolue.
+const PROXY_URL = 'REMPLACER_PAR_URL_PROXY';
+// ─────────────────────────────────────────────────────────────────────────
+
+// State
+let curBe='cosmo', curCanal='instagram', curType='event', curTon='chaleureux';
+let curStep=1, proxyUrl=PROXY_URL, lastGenText='', lastGenTags='';
+let busy=false;
+let currentUser = null;           // { email, name, initial }
+let allowedBrands = ['all'];      // marques autorisées pour l'utilisateur
+let pendingPhotoThumb = null;     // miniature base64 compressée de la photo en attente
+let currentCardId = null;         // ID de la carte actuellement ouverte dans le modal
+
+// Compresse une image dataUrl en miniature JPEG (max 200px, qualité 0.5)
+async function compressToThumb(dataUrl, maxSize, quality) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const r = Math.min((maxSize || 200) / img.width, (maxSize || 200) / img.height, 1);
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * r);
+      c.height = Math.round(img.height * r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      resolve(c.toDataURL('image/jpeg', quality || 0.5));
+    };
+    img.onerror = () => resolve('');
+    img.src = dataUrl;
+  });
+}
+
+// Init — proxy toujours actif (URL figée via PROXY_URL)
+
+const d=new Date();
+const jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+document.getElementById('tdate').textContent=`${jours[d.getDay()]} ${d.getDate()} ${mois[d.getMonth()]} ${d.getFullYear()}`;
+
+// =======================================================================
+// PONT VERS APPS SCRIPT — appelle les nouveaux endpoints (action: ...)
+// =======================================================================
+async function callBackend(action, payload) {
+  if(!proxyUrl) return null;
+  try {
+    // Pas de Content-Type → simple request, pas de preflight CORS, Apps Script reçoit quand même le JSON dans e.postData.contents
+    const resp = await fetch(PROXY_URL, {
+      method:'POST',
+      body: JSON.stringify(Object.assign({ action }, payload || {}))
+    });
+    return await resp.json();
+  } catch(e) {
+    console.warn('Backend call failed:', action, e);
+    return null;
+  }
+}
+
+// Charge user + permissions + calendriers une fois au démarrage (si proxy configuré)
+async function loadUserAndPermissions() {
+  if(!proxyUrl) return;
+  const [user, perms, cals] = await Promise.all([
+    callBackend('getUser'),
+    callBackend('getPermissions'),
+    callBackend('getCalendarIds')
+  ]);
+  if(user && !user.error) {
+    currentUser = user;
+    document.getElementById('sb-av').textContent = user.initial || '?';
+    document.getElementById('sb-name').textContent = user.name || 'Invité';
+    document.getElementById('sb-role').textContent = user.email || '';
+  }
+  if(perms && perms.brands) {
+    allowedBrands = perms.brands;
+    applyBrandPermissions();
+  }
+  if(cals && cals.ok && cals.calendars) {
+    setIframesSources(cals.calendars);
+  }
+  loadPipelineFromSheet();
+  loadWhatsappBoucles();
+  loadSuggestions();
+}
+
+// Construit l'URL Google Calendar avec les 8 calendriers Be comme sources
+function buildCalendarUrl(brandCalendars, height) {
+  const base = 'https://calendar.google.com/calendar/embed';
+  const params = [
+    'height=' + (height || 460),
+    'wkst=2',
+    'ctz=Europe%2FParis',
+    'bgcolor=%23F7F9FA',
+    'showTitle=0','showNav=1','showDate=1','showPrint=0','showTabs=0','showCalendars=0',
+    'mode=MONTH'
+  ];
+  // Une couleur correspondante par calendrier
+  const colorByKey = { cosmo:'%23FD9D24', coworking:'%2326BDE2', spaces:'%238E44AD', village:'%23DD1367', jonquiere:'%23F05A57', numerik:'%234C9F38', campus:'%23DDA63A', reborn:'%230A97D9' };
+  Object.keys(brandCalendars).forEach(key => {
+    const id = brandCalendars[key];
+    params.push('src=' + encodeURIComponent(id));
+    if(colorByKey[key]) params.push('color=' + colorByKey[key]);
+  });
+  return base + '?' + params.join('&');
+}
+
+function setIframesSources(brandCalendars) {
+  // Mini-agenda du dashboard (height=460)
+  const mini = document.querySelector('#cal');
+  if(mini) mini.src = buildCalendarUrl(brandCalendars, 460);
+  // Agenda complet (height=700)
+  document.querySelectorAll('iframe[src*="calendar.google.com"]').forEach(ifr => {
+    if(ifr.id !== 'cal') ifr.src = buildCalendarUrl(brandCalendars, 700);
+  });
+}
+
+function applyBrandPermissions() {
+  if(allowedBrands.includes('all')) return;
+
+  // Cache les filtres Be de la sidebar
+  document.querySelectorAll('.be-f[data-be]').forEach(el => {
+    const k = el.dataset.be;
+    if(k === 'all') return;
+    if(!allowedBrands.includes(k)) el.style.display = 'none';
+  });
+
+  // Cache les boutons Be du modal
+  document.querySelectorAll('.be-mb[data-be]').forEach(el => {
+    if(!allowedBrands.includes(el.dataset.be)) el.style.display = 'none';
+  });
+
+  // Si le Be courant n'est pas autorisé, on bascule sur le premier autorisé
+  if(!allowedBrands.includes(curBe) && allowedBrands.length) {
+    const first = allowedBrands[0];
+    const btn = document.querySelector(`.be-mb[data-be="${first}"]`);
+    if(btn) selBe(btn);
+  }
+}
+
+// On lance le chargement utilisateur dès que possible
+window.addEventListener('load', () => {
+  loadUserAndPermissions();
+  updateArchiveBadge();
+});
+
+// Navigation
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const titles={ dashboard:'Tableau de bord', agent:'Agent rédaction', agenda:'Agenda complet', pipeline:'Pipeline éditorial', recap:'Récap archivé', templates:'Templates Canva', photos:'Photothèques', liens:'Liens utiles', guide:'Guide com' };
+  document.getElementById('ptitle').textContent = titles[id]||id;
+  // Re-render la section Récap quand on y entre
+  if(id === 'recap') renderArchive();
+}
+
+function switchTab(tab) {
+  const digital = document.getElementById('tpl-digital');
+  const print = document.getElementById('tpl-print');
+  const btnD = document.getElementById('tab-digital');
+  const btnP = document.getElementById('tab-print');
+  if(tab === 'digital') {
+    digital.style.display = ''; print.style.display = 'none';
+    btnD.style.background = 'var(--dark)'; btnD.style.color = '#fff'; btnD.style.borderColor = 'var(--dark)';
+    btnP.style.background = ''; btnP.style.color = 'var(--dark)'; btnP.style.borderColor = 'var(--border)';
+  } else {
+    digital.style.display = 'none'; print.style.display = '';
+    btnP.style.background = 'var(--dark)'; btnP.style.color = '#fff'; btnP.style.borderColor = 'var(--dark)';
+    btnD.style.background = ''; btnD.style.color = 'var(--dark)'; btnD.style.borderColor = 'var(--border)';
+  }
+}
+
+function filterBe(el) {
+  document.querySelectorAll('.be-f').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Rafraîchit les iframes Google Calendar (force le rechargement)
+function refreshCalendars() {
+  document.querySelectorAll('iframe[src*="calendar.google.com"]').forEach(iframe => {
+    const url = iframe.src;
+    iframe.src = '';        // vide d'abord pour forcer le rechargement
+    setTimeout(() => { iframe.src = url; }, 50);
+  });
+}
+
+// Sidebar mobile (burger)
+function toggleSidebar(force) {
+  const sb = document.querySelector('.sidebar');
+  const bd = document.getElementById('sbBackdrop');
+  const willOpen = (force === undefined) ? !sb.classList.contains('open') : force;
+  sb.classList.toggle('open', willOpen);
+  bd.classList.toggle('show', willOpen);
+}
+
+// Si la sidebar est ouverte sur mobile, on la referme automatiquement après un clic de navigation
+document.addEventListener('click', (e) => {
+  if(window.innerWidth > 800) return;
+  const target = e.target.closest('.nav-item');
+  if(target) toggleSidebar(false);
+});
+
+// Modal
+// === Photo upload (Point 5) ===
+let pendingPhotoDataUrl = null;
+
+function previewPhoto(event) {
+  const file = event.target.files && event.target.files[0];
+  if(!file) { clearPhoto(); return; }
+  if(file.size > 5 * 1024 * 1024) {
+    showToast('Image trop lourde (> 5 Mo) — réduis-la d\'abord');
+    event.target.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = async e => {
+    pendingPhotoDataUrl = e.target.result;
+    document.getElementById('photo-img').src = pendingPhotoDataUrl;
+    document.getElementById('photo-preview').style.display = 'block';
+    pendingPhotoThumb = await compressToThumb(pendingPhotoDataUrl);
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhoto() {
+  pendingPhotoDataUrl = null;
+  pendingPhotoThumb = null;
+  const inp = document.getElementById('f-photo'); if(inp) inp.value = '';
+  document.getElementById('photo-preview').style.display = 'none';
+}
+
+function resetForm() {
+  ['f-titre','f-date','f-start','f-end','f-desc','f-infos','f-photo','f-canva'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.value='';
+  });
+  clearPhoto();
+  currentCardId = null;
+  const pub = document.getElementById('f-public'); if(pub) pub.selectedIndex = 0;
+  const txt = document.getElementById('ia-txt'); if(txt){ txt.textContent='Le texte généré apparaîtra ici.'; txt.classList.remove('streaming'); txt.style.color=''; }
+  const tags = document.getElementById('ia-tags'); if(tags) tags.textContent='';
+  const acts = document.getElementById('ia-acts'); if(acts) acts.style.display='none';
+  lastGenText=''; lastGenTags='';
+}
+
+function openModal(type, keepData) {
+  if(!keepData) resetForm();
+  document.getElementById('modal-t').textContent = type==='event' ? 'Nouvel événement' : type==='actu' ? 'Actu lieu' : 'Créer un contenu';
+  if(type==='event') { selType(document.querySelector('[data-type="event"]')); }
+  goStep(1);
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openFromPipeline(titre, be, canal, desc) {
+  openModal('content', true);
+  resetForm();
+  document.getElementById('f-titre').value=titre;
+  document.getElementById('f-desc').value=desc||'';
+  const beBtn = document.querySelector(`[data-be="${be}"]`);
+  if(beBtn) selBe(beBtn);
+  const canalBtn = document.querySelector(`[data-canal="${canal}"]`);
+  if(canalBtn) selCanal(canalBtn);
+}
+
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+function closeBg(e) { if(e.target===document.getElementById('overlay')) closeModal(); }
+
+// Steps
+function goStep(n) {
+  curStep=n;
+  for(let i=1;i<=3;i++){
+    document.getElementById('sp'+i).classList.toggle('active',i===n);
+    const ind=document.getElementById('si'+i);
+    ind.classList.remove('active','done');
+    if(i===n) ind.classList.add('active');
+    else if(i<n) ind.classList.add('done');
+  }
+  document.getElementById('btn-prev').style.display=n>1?'':'none';
+  document.getElementById('btn-next').textContent=n===1?'Générer ✦':n===2?'→ Valider':'Fermer';
+}
+
+function nextStep() {
+  if(curStep===1){ generer(); }
+  else if(curStep===2){ submitValidation(); goStep(3); }
+  else { closeModal(); }
+}
+
+function prevStep() { if(curStep>1) goStep(curStep-1); }
+
+// Be / Canal / Type / Ton selectors
+function selBe(el) {
+  document.querySelectorAll('.be-mb').forEach(b=>{ b.classList.remove('active'); b.style.background='transparent'; b.style.color=b.style.borderColor; });
+  el.classList.add('active'); el.style.background=el.style.borderColor; el.style.color='#fff';
+  curBe=el.dataset.be;
+}
+function selCanal(el) { document.querySelectorAll('.cc-btn').forEach(b=>b.classList.remove('active')); el.classList.add('active'); curCanal=el.dataset.canal; }
+function selType(el) { if(!el) return; document.querySelectorAll('.type-b').forEach(b=>b.classList.remove('active')); el.classList.add('active'); curType=el.dataset.type; }
+function selTon(el) { document.querySelectorAll('.ton-b').forEach(b=>b.classList.remove('active')); el.classList.add('active'); curTon=el.dataset.ton; }
+
+// Build prompt
+function buildPrompt(variante) {
+  const be=BE[curBe]; const canal=CANAL[curCanal];
+  const titre=document.getElementById('f-titre').value;
+  const date=document.getElementById('f-date').value;
+  const desc=document.getElementById('f-desc').value;
+  const infos=document.getElementById('f-infos').value;
+  const pub=document.getElementById('f-public').value;
+
+  // Choisir le template de structure : canal d'abord, puis type de contenu si différent
+  const canalTpl = TEMPLATES[curCanal] || '';
+  const typeTpl = (curType !== curCanal && TEMPLATES[curType]) ? '\n\n' + TEMPLATES[curType] : '';
+  const structure = canalTpl + typeTpl;
+
+  return `${SOCLE_COMMUN}
+
+---
+PROMPT ÉDITORIAL DE LA MARQUE :
+${be.prompt}
+
+---
+MISSION : Rédige UN post pour ${canal.label}.
+Type de contenu : ${curType} | Ton : ${TONS[curTon]}
+Longueur max : ${canal.max} caractères
+Emojis : ${canal.emojis?'oui, avec parcimonie':'non'}
+${canal.hashtags?'Hashtags disponibles : '+be.hashtags.join(' '):'Pas de hashtags'}
+
+GUIDE DE STRUCTURE ET RÈGLES :
+${structure}
+
+INFORMATIONS FOURNIES :
+${titre?'Titre / sujet : '+titre:''}
+${date?'Date / horaire : '+date:''}
+${desc?'Description : '+desc:''}
+${infos?'Infos pratiques : '+infos:''}
+${pub?'Public cible : '+pub:''}
+
+RÈGLES ABSOLUES :
+- Ne jamais inventer d'informations non fournies
+- Respecter scrupuleusement le guide de structure ci-dessus
+- Toujours finir par un CTA concret et adapté à ${be.name}
+- Rester dans l'ADN éditorial — relire les mots à éviter
+- Adapter l'angle au public cible si précisé (messages clés, attentes spécifiques)
+${variante?'- VARIANTE : change l\'angle d\'accroche, la structure et le point d\'entrée':''}
+
+Réponds UNIQUEMENT avec le texte du post.${canal.hashtags?' Hashtags sur une ligne séparée à la fin.':''}`;
+}
+
+// Generate
+async function generer(variante=false) {
+  if(busy) return;
+  const titre=document.getElementById('f-titre').value;
+  if(!titre) { const el=document.getElementById('f-titre'); el.style.borderColor='#F05A57'; el.focus(); setTimeout(()=>el.style.borderColor='',2000); return; }
+  if(!proxyUrl) { showToast('PROXY_URL non configurée — voir index.html'); return; }
+
+  goStep(2);
+  busy=true;
+  const loading=document.getElementById('ia-loading');
+  const txt=document.getElementById('ia-txt');
+  const tags=document.getElementById('ia-tags');
+  const acts=document.getElementById('ia-acts');
+  loading.style.display='flex';
+  txt.textContent=''; txt.classList.add('streaming');
+  tags.textContent=''; acts.style.display='none';
+
+  try {
+    // Pas de Content-Type → contourne le preflight CORS sur Apps Script
+    const resp = await fetch(PROXY_URL, {
+      method:'POST',
+      body:JSON.stringify({ messages:[{role:'user',content:buildPrompt(variante)}] })
+    });
+    const data = await resp.json();
+    if(data.content&&data.content[0]) {
+      const full = data.content[0].text;
+      const hm = full.match(/\n(#[\w\s#àéèêëîïôùûüçÀÉÈ]+)$/);
+      if(hm&&CANAL[curCanal].hashtags){ txt.textContent=full.slice(0,full.lastIndexOf(hm[0])).trim(); tags.textContent=hm[1].trim(); }
+      else { txt.textContent=full; }
+      lastGenText=txt.textContent; lastGenTags=tags.textContent;
+      txt.classList.remove('streaming'); acts.style.display='flex';
+    } else { throw new Error(data.error||'Réponse invalide'); }
+  } catch(e) {
+    txt.textContent='Erreur : '+e.message+'. Vérifiez l\'URL du proxy.';
+    txt.classList.remove('streaming'); txt.style.color='#F05A57';
+  }
+  busy=false; loading.style.display='none';
+}
+
+async function regen() { await generer(true); }
+
+function renderChecklist() {
+  const items = [
+    'Orthographe vérifiée','Cohérence marque','Ton adapté au canal',
+    'CTA présent et clair','Hashtags corrects','Dates et horaires exacts',
+    'Lieu mentionné','Infos pratiques complètes',
+    'Pas de mot interdit','Lisible sur mobile'
+  ];
+  const el = document.getElementById('checklist');
+  if(!el) return;
+  el.innerHTML = items.map(item => `
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--dark);padding:4px 6px;background:var(--surface);border:1px solid var(--border)">
+      <input type="checkbox" style="accent-color:var(--accent)"> ${item}
+    </label>`).join('');
+}
+
+async function submitValidation() {
+  document.getElementById('ia-txt-v').textContent=lastGenText;
+  renderChecklist();
+  document.getElementById('ia-tags-v').textContent=lastGenTags;
+
+  // Incrémente les compteurs
+  let kv=parseInt(document.getElementById('kv').textContent)||0;
+  document.getElementById('kv').textContent=kv+1;
+  document.getElementById('nb').textContent=kv+1;
+
+  // Ajoute UNE VRAIE carte dans la colonne "À valider" du Pipeline (mini + page complète)
+  const be = BE[curBe];
+  const titre = document.getElementById('f-titre').value || 'Contenu sans titre';
+  const dateRaw = document.getElementById('f-date').value;          // YYYY-MM-DD
+  const startTime = document.getElementById('f-start').value;        // HH:MM
+  const endTime = document.getElementById('f-end').value;            // HH:MM
+  const dateFmt = dateRaw ? formatDateFR(dateRaw + (startTime ? 'T' + startTime : '')) : '';
+
+  // On garde le data URL local en attendant l'upload, pour afficher la photo immédiatement dans la carte
+  const localPhotoPreview = pendingPhotoDataUrl || '';
+  const canalLbl = CANAL[curCanal] ? CANAL[curCanal].label : '';
+  const auteur = currentUser && currentUser.name ? currentUser.name : '';
+  const auteurEmail = currentUser && currentUser.email ? currentUser.email : '';
+  const metaParts = [dateFmt, canalLbl, auteur ? 'par ' + auteur : ''].filter(Boolean);
+  const metaLine = metaParts.join(' · ');
+
+  const cardId = 'card-' + Date.now();
+  currentCardId = cardId;
+  pipelineDrafts[cardId] = {
+    text: lastGenText, tags: lastGenTags, titre,
+    be: curBe, canal: curCanal, date: dateRaw,
+    timeStart: document.getElementById('f-start').value || '',
+    timeEnd: document.getElementById('f-end').value || '',
+    auteur: auteur, auteurEmail: auteurEmail, type: curType, photoUrl: '',
+    photoThumb: pendingPhotoThumb || '',
+    canvaUrl: '',
+    status: 'à valider', metaLine: metaLine, createdAt: new Date().toISOString()
+  };
+  syncCard(cardId);
+  alertBackend('submitted', pipelineDrafts[cardId]);
+
+  const localPhotoSrc = pendingPhotoThumb || localPhotoPreview;
+  const localPhotoHtml = localPhotoSrc
+    ? `<img src="${localPhotoSrc}" style="width:100%;height:60px;object-fit:cover;margin:5px 0 3px;border:1px solid var(--border)"/>`
+    : '';
+
+  const cardHtml = `
+    <div class="pipe-item" id="${cardId}" style="border-left:2px solid #FFC107" onclick="viewDraft('${cardId}')">
+      <div class="pipe-be" style="color:${be.color}">${be.name}</div>
+      <div class="pipe-title">${escapeHtml(titre)}</div>
+      ${localPhotoHtml}
+      <div class="pipe-meta">${escapeHtml(metaLine || 'En attente')}</div>
+      <div class="val-btns">
+        <button class="vbtn ap" onclick="event.stopPropagation();valider(this)">✓</button>
+        <button class="vbtn re" onclick="event.stopPropagation();rejeter(this)">✗</button>
+      </div>
+    </div>`;
+
+  document.querySelectorAll('.pipe-col').forEach(col => {
+    const head = col.querySelector('.pipe-col-n');
+    if(head && head.textContent.trim().toLowerCase() === 'à valider') {
+      col.insertAdjacentHTML('beforeend', cardHtml);
+      const cnt = col.querySelector('.pipe-cnt');
+      if(cnt) cnt.textContent = (parseInt(cnt.textContent)||0) + 1;
+    }
+  });
+
+  // Upload de la photo EN ARRIÈRE-PLAN (sans bloquer l'affichage des cartes)
+  if(pendingPhotoDataUrl) {
+    (async () => {
+      try {
+        showToast('Upload de la photo sur Drive…');
+        const today = new Date();
+        const dateStr = today.toISOString().slice(0,10);
+        const safeTitre = titre.replace(/[^a-zA-Z0-9]/g, '-').slice(0,40);
+        const ext = (pendingPhotoDataUrl.match(/data:image\/(\w+);/) || [null,'jpg'])[1];
+        const filename = `${dateStr}_${curBe.toUpperCase()}_${safeTitre}_v01.${ext}`;
+        const upload = await callBackend('uploadImage', { dataUrl: pendingPhotoDataUrl, filename, brand: curBe });
+        if(upload && upload.ok && upload.url) {
+          pipelineDrafts[cardId].driveUrl = upload.url;
+          pipelineDrafts[cardId].driveName = upload.name || '';
+          // On garde le base64 local comme photoUrl pour l'affichage (les URL Drive bloquent sans cookie auth)
+          if(!pipelineDrafts[cardId].photoUrl) pipelineDrafts[cardId].photoUrl = pendingPhotoDataUrl;
+          syncCard(cardId); // persiste le driveUrl dans le Sheet
+          showToast('✓ Photo uploadée sur Drive');
+        } else if(upload && upload.error) {
+          showToast('Photo : ' + upload.error.slice(0,60));
+        }
+      } catch(e) {
+        showToast('Photo : erreur upload — ' + String(e.message || e).slice(0,40));
+      }
+    })();
+  }
+
+  // Si c'est un événement et qu'on a une date, on le crée dans Google Calendar
+  if(curType === 'event' && dateRaw) {
+    showToast('Création de l\'événement dans Google Calendar…');
+    const desc = document.getElementById('f-desc').value || '';
+    const infos = document.getElementById('f-infos').value || '';
+    const fullDesc = [
+      desc,
+      infos ? '\nInfos pratiques : ' + infos : '',
+      '\n--',
+      'Marque : ' + be.name,
+      auteur ? 'Créé par : ' + auteur : '',
+      '\nContenu IA :',
+      lastGenText
+    ].filter(Boolean).join('\n');
+
+    // Combine date + heures pour créer le start/end ISO
+    const startISO = dateRaw + (startTime ? 'T' + startTime : 'T09:00');
+    const endISO = endTime
+      ? dateRaw + 'T' + endTime
+      : (startTime ? dateRaw + 'T' + addHourToTime(startTime) : null);
+
+    const res = await callBackend('createEvent', {
+      event: {
+        brand: curBe,
+        title: '[' + be.name + '] ' + titre,
+        start: startISO,
+        end: endISO,
+        description: fullDesc,
+        location: infos.match(/^[^,]+/) ? infos.split(',')[0].trim() : ''
+      }
+    });
+
+    if(res && res.ok) {
+      showToast('✓ Événement créé dans Google Calendar (' + (res.calendarName || 'agenda') + ')');
+      refreshCalendars(); // recharge l'iframe pour voir l'événement
+    } else if(res && res.error) {
+      showToast('Pipeline OK, Calendar erreur : ' + res.error.slice(0, 60));
+    } else {
+      showToast('✓ Contenu envoyé en validation');
+    }
+  } else {
+    showToast('✓ Contenu envoyé en validation');
+  }
+}
+
+// Stocke les contenus soumis pour pouvoir les rouvrir
+const pipelineDrafts = {};
+
+// Génère un lien wa.me prérempli pour notifier l'équipe d'un contenu prêt
+function buildWaLink(draft) {
+  const beName = (BE[draft.be] || { name: draft.be || '' }).name;
+  const canalLbl = (CANAL[draft.canal] || { label: draft.canal || '' }).label;
+  const msg = `[${beName}] ${draft.titre || ''}${canalLbl ? ' · ' + canalLbl : ''}\n\nContenu approuvé — prêt à poster ✓\nCreated in Hub Com Reborn & Be`;
+  return 'https://wa.me/?text=' + encodeURIComponent(msg);
+}
+
+// Envoie une alerte email via le backend Apps Script (fire & forget)
+// Pour 'approved' / 'corrected' / 'posted' : notifie l'auteur si son email est connu
+function alertBackend(action, draft) {
+  if (!proxyUrl) return;
+  const beName = (BE[draft.be] || { name: draft.be || '' }).name;
+  const canalLbl = (CANAL[draft.canal] || { label: draft.canal || '' }).label;
+  // submitted → notifier le validateur (pas de toEmail → owner du script)
+  // autres statuts → notifier l'auteur de la carte
+  const toEmail = (action !== 'submitted' && draft.auteurEmail) ? draft.auteurEmail : '';
+  callBackend('sendAlert', {
+    action, titre: draft.titre || '', be: beName,
+    canal: canalLbl, auteur: draft.auteur || '', toEmail
+  });
+}
+
+function buildCardHtml(draft, cardId) {
+  const be = BE[draft.be] || { color: '#999', name: draft.be || '' };
+  const status = draft.status || 'à valider';
+  const borderColors = { 'à valider': '#FFC107', 'en cours': '#F05A57', 'à poster': '#1565C0', 'posté': '#4CAF50' };
+  const borderColor = borderColors[status] || '#FFC107';
+  const opacity = status === 'posté' ? '.65' : '1';
+  let photoHtml = '';
+  if (draft.photoThumb && draft.photoThumb.startsWith('data:')) {
+    photoHtml = `<img src="${draft.photoThumb}" style="width:100%;height:60px;object-fit:cover;margin:5px 0 3px;border:1px solid var(--border)"/>`;
+  } else if (draft.photoUrl && draft.photoUrl.startsWith('data:')) {
+    photoHtml = `<img src="${draft.photoUrl}" style="width:100%;height:60px;object-fit:cover;margin:5px 0 3px;border:1px solid var(--border)"/>`;
+  } else if (draft.driveUrl) {
+    photoHtml = `<a href="${draft.driveUrl}" target="_blank" onclick="event.stopPropagation()" style="display:block;margin:4px 0;font-size:10px;color:var(--muted)">📷 Photo sur Drive</a>`;
+  }
+  const canvaHtml = draft.canvaUrl
+    ? `<a href="${draft.canvaUrl}" target="_blank" onclick="event.stopPropagation()" style="display:block;margin:3px 0;font-size:9px;font-weight:800;color:#8E44AD;text-decoration:none">🎨 Voir Canva ↗</a>`
+    : '';
+  let btns = '';
+  if (status === 'à valider' || status === 'en cours') {
+    btns = `<div class="val-btns"><button class="vbtn ap" onclick="event.stopPropagation();valider(this)">✓</button><button class="vbtn re" onclick="event.stopPropagation();rejeter(this)">✗</button></div>`;
+  } else if (status === 'à poster') {
+    const waLink = buildWaLink(draft);
+    btns = `<div class="val-btns"><button class="vbtn ap" onclick="event.stopPropagation();marquerPoste(this)" style="background:#1565C0">📤 Marquer posté</button><a class="vbtn" href="${waLink}" target="_blank" onclick="event.stopPropagation()" style="background:#25D366;color:#fff;text-decoration:none;display:inline-flex;align-items:center">📲 WA</a></div>`;
+  } else if (status === 'posté') {
+    btns = `<div class="val-btns"><button class="vbtn" onclick="event.stopPropagation();archiver(this)" style="background:#6c757d;color:#fff">📦 Archiver</button></div>`;
+  }
+  return `<div class="pipe-item" id="${cardId}" style="border-left:2px solid ${borderColor};opacity:${opacity}" onclick="viewDraft('${cardId}')">
+    <div class="pipe-be" style="color:${be.color}">${be.name}</div>
+    <div class="pipe-title">${escapeHtml(draft.titre || '')}</div>
+    ${photoHtml}
+    ${canvaHtml}
+    <div class="pipe-meta">${escapeHtml(draft.metaLine || 'En attente')}</div>
+    ${btns}
+  </div>`;
+}
+
+async function syncCard(cardId) {
+  if (!proxyUrl || !pipelineDrafts[cardId]) return;
+  const d = pipelineDrafts[cardId];
+  callBackend('savePipelineCard', {
+    id: cardId, be: d.be, canal: d.canal, type: d.type, titre: d.titre,
+    text: d.text, tags: d.tags, date: d.date, timeStart: d.timeStart||'', timeEnd: d.timeEnd||'',
+    auteur: d.auteur, status: d.status||'à valider', driveUrl: d.driveUrl||'', driveName: d.driveName||'',
+    photoThumb: d.photoThumb||'', canvaUrl: d.canvaUrl||'',
+    calEventId: d.calEventId||'', metaLine: d.metaLine||'', createdAt: d.createdAt||'',
+    auteurEmail: d.auteurEmail||''
+  });
+}
+
+async function loadPipelineFromSheet() {
+  if (!proxyUrl) return;
+  const result = await callBackend('loadPipeline');
+  if (!result || result.error || !result.cards || !result.cards.length) return;
+  result.cards.forEach(card => {
+    const cardId = card.id;
+    if (document.getElementById(cardId)) return; // déjà dans le DOM
+    if (pipelineDrafts[cardId]) return; // draft en mémoire plus récent, ne pas écraser
+    pipelineDrafts[cardId] = {
+      text: card.text, tags: card.tags, titre: card.titre,
+      be: card.be, canal: card.canal, date: card.date,
+      timeStart: card.timeStart, timeEnd: card.timeEnd,
+      auteur: card.auteur, type: card.type,
+      photoUrl: '', driveUrl: card.driveUrl, driveName: card.driveName,
+      photoThumb: card.photoThumb || '', canvaUrl: card.canvaUrl || '',
+      calEventId: card.calEventId, metaLine: card.metaLine,
+      status: card.status, createdAt: card.createdAt,
+      auteurEmail: card.auteurEmail || ''
+    };
+    const colName = card.status || 'à valider';
+    const cardHtml = buildCardHtml(pipelineDrafts[cardId], cardId);
+    document.querySelectorAll('.pipe-cols').forEach(scope => {
+      const col = findCol(scope, colName);
+      if (col) {
+        col.insertAdjacentHTML('beforeend', cardHtml);
+        updateColCount(col, +1);
+      }
+    });
+  });
+  const kv = Object.values(pipelineDrafts).filter(d => d.status === 'à valider').length;
+  document.getElementById('kv').textContent = kv;
+  document.getElementById('nb').textContent = kv;
+}
+
+function viewDraft(cardId) {
+  const d = pipelineDrafts[cardId]; if(!d) return;
+  currentCardId = cardId;
+  const beBtn = document.querySelector(`[data-be="${d.be}"]`); if(beBtn) selBe(beBtn);
+  const canalBtn = document.querySelector(`[data-canal="${d.canal}"]`); if(canalBtn) selCanal(canalBtn);
+  document.getElementById('f-titre').value = d.titre;
+  if(d.date) document.getElementById('f-date').value = d.date;
+  lastGenText = d.text; lastGenTags = d.tags;
+  openModal('content', true);
+  document.getElementById('ia-txt').textContent = d.text;
+  document.getElementById('ia-tags').textContent = d.tags;
+  goStep(3);
+  document.getElementById('ia-txt-v').textContent = d.text;
+  document.getElementById('ia-tags-v').textContent = d.tags;
+  const canvaInp = document.getElementById('f-canva');
+  if(canvaInp) canvaInp.value = d.canvaUrl || '';
+  renderChecklist();
+}
+
+function saveCanvaUrl() {
+  const url = (document.getElementById('f-canva').value || '').trim();
+  if(!currentCardId || !pipelineDrafts[currentCardId]) return;
+  pipelineDrafts[currentCardId].canvaUrl = url;
+  syncCard(currentCardId);
+  if(url) showToast('🎨 Lien Canva enregistré');
+}
+
+function openCanva() {
+  const url = (document.getElementById('f-canva').value || '').trim();
+  if(url) window.open(url, '_blank');
+  else showToast('Colle d\'abord l\'URL Canva');
+}
+
+function addHourToTime(hhmm) {
+  // "18:30" -> "19:30"
+  if(!hhmm || !hhmm.includes(':')) return '10:00';
+  const [h, m] = hhmm.split(':').map(Number);
+  const newH = (h + 1) % 24;
+  return String(newH).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+}
+
+function formatDateFR(iso) {
+  if(!iso) return '';
+  try {
+    const [d, t] = iso.split('T');
+    const [y, m, j] = d.split('-');
+    const moisCourt = ['jan','fév','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+    const datePart = `${parseInt(j)} ${moisCourt[parseInt(m)-1]}`;
+    if(t) return `${datePart} · ${t.slice(0,5)}`;
+    return datePart;
+  } catch(e) { return iso; }
+}
+
+function escapeHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyResult(btn) {
+  const text=(lastGenText+(lastGenTags?'\n\n'+lastGenTags:'')).trim();
+  navigator.clipboard.writeText(text).then(()=>{ btn.classList.add('ok'); btn.textContent='✓ Copié'; setTimeout(()=>{btn.classList.remove('ok');btn.textContent='⎘ Copier';},2000); });
+}
+
+// =========================================================================
+// PIPELINE — déplacements entre colonnes (À valider → À poster → Posté → archivé)
+// =========================================================================
+
+// Trouve la colonne par son nom textuel ("à valider", "à poster", "posté"...) dans le scope d'un Pipeline
+function findCol(scope, name) {
+  const lower = name.toLowerCase().trim();
+  return Array.from(scope.querySelectorAll('.pipe-col')).find(col => {
+    const head = col.querySelector('.pipe-col-n');
+    return head && head.textContent.trim().toLowerCase() === lower;
+  });
+}
+
+function updateColCount(col, delta) {
+  const cnt = col && col.querySelector('.pipe-cnt');
+  if(cnt) cnt.textContent = Math.max(0, (parseInt(cnt.textContent)||0) + delta);
+}
+
+function moveCardToColumn(item, targetName) {
+  const cardId = item.id;
+  if(cardId) {
+    // Carte avec ID : déplace toutes les copies (mini dashboard + page complète)
+    document.querySelectorAll('.pipe-cols').forEach(scope => {
+      const sourceItem = Array.from(scope.querySelectorAll('.pipe-item')).find(el => el.id === cardId);
+      if(!sourceItem) return;
+      const fromCol = sourceItem.closest('.pipe-col');
+      const toCol = findCol(scope, targetName);
+      if(!fromCol || !toCol) return;
+      toCol.appendChild(sourceItem);
+      updateColCount(fromCol, -1);
+      updateColCount(toCol, +1);
+    });
+  } else {
+    // Carte sans ID (cartes de démo statiques) : déplace juste cet élément
+    const scope = item.closest('.pipe-cols');
+    const fromCol = item.closest('.pipe-col');
+    const toCol = findCol(scope, targetName);
+    if(!fromCol || !toCol) return;
+    toCol.appendChild(item);
+    updateColCount(fromCol, -1);
+    updateColCount(toCol, +1);
+  }
+}
+
+function valider(btn) {
+  const item = btn.closest('.pipe-item');
+  const id = item.id;
+  item.style.borderLeft = '2px solid #1565C0';
+  item.style.opacity = '1';
+  const meta = item.querySelector('.pipe-meta'); if(meta) meta.textContent = 'Validé · à poster';
+  const valBtns = item.querySelector('.val-btns');
+  if(valBtns) {
+    valBtns.innerHTML = '<button class="vbtn ap" onclick="event.stopPropagation();marquerPoste(this)" style="background:#1565C0">📤 Marquer posté</button>';
+  }
+  moveCardToColumn(item, 'À poster');
+  if(id && pipelineDrafts[id]) {
+    pipelineDrafts[id].status = 'à poster';
+    syncCard(id);
+    alertBackend('approved', pipelineDrafts[id]);
+    // Ajoute le bouton WhatsApp sur la carte en live
+    const waLink = buildWaLink(pipelineDrafts[id]);
+    if(valBtns) valBtns.innerHTML =
+      `<button class="vbtn ap" onclick="event.stopPropagation();marquerPoste(this)" style="background:#1565C0">📤 Marquer posté</button>` +
+      `<a class="vbtn" href="${waLink}" target="_blank" onclick="event.stopPropagation()" style="background:#25D366;color:#fff;text-decoration:none;display:inline-flex;align-items:center">📲 WA</a>`;
+  }
+  const kv = Math.max(0, (parseInt(document.getElementById('kv').textContent)||1) - 1);
+  document.getElementById('kv').textContent = kv;
+  document.getElementById('nb').textContent = kv;
+  showToast('✓ Validé — passé en "À poster"');
+}
+
+function rejeter(btn) {
+  const item = btn.closest('.pipe-item');
+  const id = item.id;
+  item.style.borderLeft = '2px solid #F05A57';
+  const meta = item.querySelector('.pipe-meta'); if(meta) meta.textContent = 'Corrections demandées';
+  const valBtns = item.querySelector('.val-btns'); if(valBtns) valBtns.remove();
+  moveCardToColumn(item, 'En cours');
+  if(id && pipelineDrafts[id]) {
+    pipelineDrafts[id].status = 'en cours';
+    syncCard(id);
+    alertBackend('corrected', pipelineDrafts[id]);
+  }
+  const kv = Math.max(0, (parseInt(document.getElementById('kv').textContent)||1) - 1);
+  document.getElementById('kv').textContent = kv;
+  document.getElementById('nb').textContent = kv;
+  showToast('↺ Corrections demandées — renvoyé en "En cours"');
+}
+
+function marquerPoste(btn) {
+  const item = btn.closest('.pipe-item');
+  const id = item.id;
+  item.style.borderLeft = '2px solid #4CAF50';
+  item.style.opacity = '.65';
+  const meta = item.querySelector('.pipe-meta');
+  const today = new Date();
+  const moisCourt = ['jan','fév','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  const dateStr = today.getDate() + ' ' + moisCourt[today.getMonth()];
+  if(meta) meta.textContent = dateStr + ' ✓ posté';
+  // Remplace par un bouton "Archiver"
+  const valBtns = item.querySelector('.val-btns');
+  if(valBtns) {
+    valBtns.innerHTML = '<button class="vbtn" onclick="event.stopPropagation();archiver(this)" style="background:#6c757d;color:#fff">📦 Archiver</button>';
+  }
+  moveCardToColumn(item, 'Posté');
+  if(id && pipelineDrafts[id]) {
+    pipelineDrafts[id].status = 'posté';
+    syncCard(id);
+    alertBackend('posted', pipelineDrafts[id]);
+  }
+  showToast('🎉 Contenu posté — bravo !');
+}
+
+function archiver(btn) {
+  const item = btn.closest('.pipe-item');
+  const id = item.id;
+  const draft = (id && pipelineDrafts[id]) || {};
+  const titre = (item.querySelector('.pipe-title') || {}).textContent || '';
+  const be = (item.querySelector('.pipe-be') || {}).textContent || '';
+  const date = (item.querySelector('.pipe-meta') || {}).textContent || '';
+  archivedItems.push({
+    id: id || ('archive-' + Date.now()),
+    titre, be, date,
+    text: draft.text || '',
+    tags: draft.tags || '',
+    photoUrl: draft.photoUrl || '',
+    canal: draft.canal || '',
+    archivedAt: new Date().toISOString()
+  });
+  saveArchive();
+  if(id && proxyUrl) callBackend('deletePipelineCard', { id });
+  // Retire toutes les copies de la carte
+  if(id) {
+    document.querySelectorAll('#' + CSS.escape(id)).forEach(el => {
+      const col = el.closest('.pipe-col');
+      el.remove();
+      updateColCount(col, -1);
+    });
+  } else {
+    const col = item.closest('.pipe-col');
+    item.remove();
+    updateColCount(col, -1);
+  }
+  updateArchiveBadge();
+  showToast('📦 Archivé — visible dans Récap');
+}
+
+// =========================================================================
+// PHOTOTHÈQUE — Galerie dynamique Drive avec navigation sous-dossiers
+// =========================================================================
+
+let currentPhotoBrand = 'all';
+let photoCurrentFolderId = null;  // null = dossier racine de la marque
+
+function setPhotoFilter(btn, brand) {
+  document.querySelectorAll('#photo-filter-bar .cc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPhotoBrand = brand;
+  photoCurrentFolderId = null;  // reset navigation au changement de marque
+  updatePhotoBreadcrumb(null, null);
+  loadPhotos();
+}
+
+async function loadPhotos() {
+  if (!proxyUrl) { showToast('Configure d\'abord l\'URL du proxy'); return; }
+  const grid = document.getElementById('photo-grid');
+  grid.innerHTML = '<div class="spin-w" style="padding:16px 0;justify-content:center"><div class="spin"></div>Chargement depuis Drive…</div>';
+  const payload = { brand: currentPhotoBrand || 'all', limit: 24 };
+  if (photoCurrentFolderId) payload.folderId = photoCurrentFolderId;
+  const result = await callBackend('getPhotos', payload);
+  if (!result || result.error) {
+    grid.innerHTML = `<div style="font-size:12px;color:#F05A57;padding:12px 0">${result ? result.error : 'Erreur réseau'}</div>`;
+    return;
+  }
+  // Affiche les sous-dossiers en haut de la grille si présents
+  if (result.subFolders && result.subFolders.length) {
+    renderSubFolders(result.subFolders);
+  } else {
+    const subDiv = document.getElementById('photo-subfolders');
+    if (subDiv) subDiv.remove();
+  }
+  if (!result.photos || !result.photos.length) {
+    const msg = result.reason === 'no_folders_yet'
+      ? 'Aucun dossier Drive configuré — uploade d\'abord une photo depuis le formulaire.'
+      : 'Aucune photo dans ce dossier pour l\'instant.';
+    grid.innerHTML = `<div style="font-size:12px;color:var(--muted);padding:12px 0;text-align:center">${msg}</div>`;
+    return;
+  }
+  renderPhotoGrid(result.photos);
+}
+
+function renderSubFolders(subFolders) {
+  // Injecte les chips de sous-dossiers au-dessus de la grille
+  let subDiv = document.getElementById('photo-subfolders');
+  if (!subDiv) {
+    subDiv = document.createElement('div');
+    subDiv.id = 'photo-subfolders';
+    const grid = document.getElementById('photo-grid');
+    grid.parentNode.insertBefore(subDiv, grid);
+  }
+  const chips = subFolders.map(sf =>
+    `<button onclick="navigateToFolder('${escapeHtml(sf.id)}','${escapeHtml(sf.name)}')"
+      style="padding:4px 10px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;color:var(--dark);transition:all 140ms"
+      onmouseover="this.style.background='var(--dark)';this.style.color='#fff'"
+      onmouseout="this.style.background='var(--surface)';this.style.color='var(--dark)'">
+      📁 ${escapeHtml(sf.name)}
+    </button>`
+  ).join('');
+  subDiv.innerHTML = `<div style="display:flex;gap:5px;flex-wrap:wrap;padding:8px 0 6px">${chips}</div>`;
+}
+
+function navigateToFolder(folderId, folderName) {
+  photoCurrentFolderId = folderId;
+  updatePhotoBreadcrumb(folderId, folderName);
+  loadPhotos();
+}
+
+function goBackToRoot() {
+  photoCurrentFolderId = null;
+  updatePhotoBreadcrumb(null, null);
+  loadPhotos();
+}
+
+function updatePhotoBreadcrumb(folderId, folderName) {
+  const bc = document.getElementById('photo-breadcrumb');
+  if (!bc) return;
+  if (!folderId) {
+    bc.style.display = 'none';
+    bc.innerHTML = '';
+    return;
+  }
+  bc.style.display = 'flex';
+  bc.innerHTML = `<button onclick="goBackToRoot()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--accent);padding:0;font-family:'Barlow',sans-serif;font-weight:700">← Retour</button>
+    <span style="color:var(--muted)">›</span>
+    <span style="font-weight:700;color:var(--dark)">${escapeHtml(folderName || '')}</span>`;
+}
+
+function renderPhotoGrid(photos) {
+  const grid = document.getElementById('photo-grid');
+  const brandColor = { cosmo:'var(--cosmo)', coworking:'var(--coworking)', spaces:'var(--spaces)', village:'var(--village)', jonquiere:'var(--jonquiere)', numerik:'var(--numerik)', campus:'var(--campus)', reborn:'var(--reborn)' };
+  const brandName  = { cosmo:'Be-Cosmo', coworking:'Be-Coworking', spaces:'Be-Spaces', village:'Be-Village', jonquiere:'Jonquière', numerik:'Be-Numerik', campus:'Campus 112', reborn:'Reborn & Be' };
+  const items = photos.map(p => {
+    const color = brandColor[p.brand] || 'var(--muted)';
+    const name  = brandName[p.brand]  || p.brand;
+    const short = p.name.length > 28 ? p.name.slice(0, 26) + '…' : p.name;
+    const fileId = escapeHtml(p.id);
+    const brand  = escapeHtml(p.brand);
+    const fname  = escapeHtml(p.name);
+    return `<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden" title="${fname}">
+      <div style="position:relative;height:90px;background:var(--bg);overflow:hidden;cursor:pointer" onclick="window.open('${escapeHtml(p.viewUrl)}','_blank')">
+        <img src="${escapeHtml(p.thumbUrl)}" referrerpolicy="no-referrer" loading="lazy"
+          style="width:100%;height:90px;object-fit:cover;display:block"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div style="display:none;width:100%;height:90px;align-items:center;justify-content:center;font-size:22px;position:absolute;top:0">📷</div>
+      </div>
+      <div style="padding:4px 7px 5px">
+        <div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:${color};margin-bottom:1px">${name}</div>
+        <div style="font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px">${escapeHtml(short)}</div>
+        <button onclick="usePhoto('${fileId}','${fname}','${brand}')"
+          style="width:100%;padding:3px 0;background:var(--accent);border:none;color:#fff;font-family:'Barlow',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:opacity 140ms"
+          onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">Utiliser ↗</button>
+      </div>
+    </div>`;
+  }).join('');
+  grid.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px">${items}</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:right">${photos.length} photo${photos.length>1?'s':''} — clic image pour ouvrir sur Drive</div>`;
+}
+
+// =========================================================================
+// WHATSAPP BOUCLES — chargement et gestion dynamique
+// =========================================================================
+
+function toggleWaForm() {
+  const form = document.getElementById('wa-form');
+  if (!form) return;
+  const visible = form.style.display !== 'none';
+  form.style.display = visible ? 'none' : 'block';
+  if (!visible) document.getElementById('wa-nom').focus();
+}
+
+async function loadWhatsappBoucles() {
+  if (!proxyUrl) {
+    const list = document.getElementById('wa-boucles-list');
+    if (list) list.innerHTML = '<div class="link-row" style="font-size:10px;color:var(--muted);font-style:italic">Configure le proxy pour charger les boucles.</div>';
+    return;
+  }
+  const result = await callBackend('getWhatsappBoucles');
+  renderBoucles(result && result.boucles ? result.boucles : []);
+}
+
+function renderBoucles(boucles) {
+  const list = document.getElementById('wa-boucles-list');
+  if (!list) return;
+  if (!boucles.length) {
+    list.innerHTML = '<div class="link-row" style="font-size:10px;color:var(--muted);font-style:italic">Aucune boucle — clique + Ajouter pour commencer.</div>';
+    return;
+  }
+  list.innerHTML = boucles.map(b => {
+    const brandKey = (b.marque || '').toLowerCase().trim();
+    const color = (BE[brandKey] || {}).color || '#25D366';
+    const nom = escapeHtml(b.nom || '');
+    const lien = escapeHtml(b.lien || '');
+    const desc = b.description ? `<div style="font-size:9px;color:var(--muted);margin-top:1px">${escapeHtml(b.description)}</div>` : '';
+    const openLink = b.lien ? `href="${lien}" target="_blank"` : '';
+    return `<div style="display:flex;align-items:center;border-bottom:1px solid var(--border)">
+      <a ${openLink} class="link-row" style="flex:1;border-bottom:none;text-decoration:none">
+        <div class="be-dot" style="background:${color}"></div>
+        <div style="flex:1"><div class="lname">${nom}</div>${desc}</div>
+        <div class="larr">↗</div>
+      </a>
+      <button onclick="deleteBoucle('${escapeHtml(b.id)}')" title="Supprimer"
+        style="padding:0 10px;background:none;border:none;cursor:pointer;font-size:13px;color:var(--muted);flex-shrink:0">✕</button>
+    </div>`;
+  }).join('');
+}
+
+async function addBoucle() {
+  const nom  = (document.getElementById('wa-nom').value || '').trim();
+  const lien = (document.getElementById('wa-lien').value || '').trim();
+  if (!nom) { showToast('Saisis un nom pour la boucle'); return; }
+  if (!proxyUrl) { showToast('Configure le proxy d\'abord'); return; }
+  const marque = (document.getElementById('wa-marque').value || '').trim();
+  const desc   = (document.getElementById('wa-desc').value || '').trim();
+  const result = await callBackend('saveWhatsappBoucle', { nom, lien, marque, description: desc });
+  if (result && result.ok) {
+    ['wa-nom','wa-lien','wa-marque','wa-desc'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    toggleWaForm();
+    showToast('✓ Boucle ajoutée');
+    loadWhatsappBoucles();
+  } else {
+    showToast('Erreur : ' + ((result && result.error) || 'inconnue'));
+  }
+}
+
+async function deleteBoucle(id) {
+  if (!proxyUrl || !id) return;
+  const result = await callBackend('deleteWhatsappBoucle', { id });
+  if (result && result.ok) {
+    showToast('Boucle supprimée');
+    loadWhatsappBoucles();
+  }
+}
+
+// =========================================================================
+// RÉUTILISER UNE PHOTO — charge depuis Drive et pré-remplit le formulaire
+// =========================================================================
+
+async function usePhoto(fileId, fileName, brand) {
+  if (!proxyUrl) { showToast('Configure le proxy d\'abord'); return; }
+  showToast('Chargement de la photo…');
+  const result = await callBackend('getPhotoData', { fileId });
+  if (!result || result.error) {
+    showToast('Erreur : ' + ((result && result.error) || 'réseau'));
+    return;
+  }
+  // Pré-charge dans le formulaire de création
+  pendingPhotoDataUrl = result.dataUrl;
+  pendingPhotoThumb = await compressToThumb(result.dataUrl);
+  const img = document.getElementById('photo-img');
+  const preview = document.getElementById('photo-preview');
+  if (img && preview) { img.src = pendingPhotoDataUrl; preview.style.display = 'block'; }
+  // Pré-sélectionne la marque si disponible
+  const brandBtn = document.querySelector(`[data-be="${brand}"]`);
+  if (brandBtn) selBe(brandBtn);
+  // Ouvre le modal de création à l'étape 1
+  openModal('content', true);
+  showToast('✓ Photo chargée — complète le formulaire');
+}
+
+// =========================================================================
+// SUGGESTIONS — bannière des événements proches sans contenu pipeline
+// =========================================================================
+
+async function loadSuggestions() {
+  if (!proxyUrl) return;
+  const result = await callBackend('getSuggestions');
+  if (!result || result.error || !result.suggestions || !result.suggestions.length) {
+    const bar = document.getElementById('suggestions-bar');
+    if (bar) bar.style.display = 'none';
+    return;
+  }
+  renderSuggestions(result.suggestions);
+}
+
+function renderSuggestions(suggestions) {
+  const bar = document.getElementById('suggestions-bar');
+  if (!bar) return;
+  const moisCourt = ['jan','fév','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  const chips = suggestions.slice(0, 5).map(s => {
+    const d = new Date(s.start);
+    const dateLbl = `${d.getDate()} ${moisCourt[d.getMonth()]}`;
+    const color = (BE[s.brand] || {}).color || 'var(--accent)';
+    const name  = (BE[s.brand] || {}).name || s.brand;
+    return `<button onclick="openFromPipeline('${escapeHtml(s.title)}','${s.brand}','instagram','')"
+      style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid ${color};background:transparent;cursor:pointer;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;color:${color};white-space:nowrap;transition:all 140ms"
+      onmouseover="this.style.background='${color}';this.style.color='#fff'"
+      onmouseout="this.style.background='transparent';this.style.color='${color}'">
+      <span style="font-size:7px;background:${color};color:#fff;padding:1px 4px;border-radius:2px">${dateLbl}</span>
+      ${escapeHtml(s.title.replace(/^\[.*?\]\s*/, ''))}
+    </button>`;
+  }).join('');
+  bar.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 16px;background:#FFF8E6;border-bottom:1px solid #FFC107">
+    <span style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#856404;flex-shrink:0">💡 Bon du jour</span>
+    ${chips}
+    <button onclick="this.closest('#suggestions-bar').style.display='none'" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:12px;color:#856404;padding:2px 6px">✕</button>
+  </div>`;
+  bar.style.display = 'block';
+}
+
+// =========================================================================
+// ARCHIVE / RÉCAP
+// =========================================================================
+
+let archivedItems = [];
+try { archivedItems = JSON.parse(localStorage.getItem('rb_archive') || '[]'); } catch(e) {}
+
+function saveArchive() {
+  try { localStorage.setItem('rb_archive', JSON.stringify(archivedItems)); } catch(e) {}
+}
+
+function updateArchiveBadge() {
+  const badge = document.getElementById('archive-badge');
+  if(badge) badge.textContent = archivedItems.length || '';
+}
+
+function renderArchive() {
+  const list = document.getElementById('archive-list');
+  if(!list) return;
+  if(!archivedItems.length) {
+    list.innerHTML = '<div style="padding:20px;color:var(--muted);text-align:center">Aucun contenu archivé. Quand tu cliques 📦 Archiver sur une carte postée, elle apparaît ici avec le texte et l\'image.</div>';
+    return;
+  }
+  // Tri par date d'archivage décroissante
+  const sorted = archivedItems.slice().sort((a,b) => (b.archivedAt || '').localeCompare(a.archivedAt || ''));
+  list.innerHTML = sorted.map(item => `
+    <div style="background:var(--surface);border:1px solid var(--border);padding:14px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em">${escapeHtml(item.be)}</div>
+          <div style="font-size:15px;font-weight:700;color:var(--dark);margin-top:2px">${escapeHtml(item.titre)}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">${escapeHtml(item.date)}${item.canal ? ' · canal : ' + escapeHtml(item.canal) : ''}</div>
+        </div>
+        <button class="btn-o" style="font-size:9px;padding:3px 8px" onclick="copyArchive(${archivedItems.indexOf(item)})">⎘ Copier</button>
+      </div>
+      ${item.photoUrl ? `<img src="${item.photoUrl}" referrerpolicy="no-referrer" style="max-width:320px;max-height:220px;border:1px solid var(--border);object-fit:cover;display:block;margin-bottom:10px"/>` : ''}
+      ${item.text ? `<div style="white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--dark);background:var(--bg);padding:12px;border:1px solid var(--border)">${escapeHtml(item.text)}</div>` : '<div style="font-size:11px;color:var(--muted);font-style:italic">Pas de texte sauvegardé (carte de démo ou avant la mise à jour)</div>'}
+      ${item.tags ? `<div style="font-size:13px;color:var(--accent);margin-top:8px;font-weight:600">${escapeHtml(item.tags)}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function copyArchive(idx) {
+  const item = archivedItems[idx]; if(!item) return;
+  const text = (item.text || '') + (item.tags ? '\n\n' + item.tags : '');
+  navigator.clipboard.writeText(text.trim()).then(() => showToast('✓ Copié'));
+}
+
+function viderArchive() {
+  if(!confirm('Vraiment vider toutes les archives ? Cette action est définitive.')) return;
+  archivedItems = [];
+  saveArchive();
+  updateArchiveBadge();
+  renderArchive();
+  showToast('Archives vidées');
+}
+
+// openProxy/saveProxy supprimés — proxy URL figée via PROXY_URL
+
+// Toast
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// Init be actif
+document.querySelector('.be-mb.active').style.background='var(--cosmo)';
+document.querySelector('.be-mb.active').style.color='#fff';
+</script>
+</body>
+</html>
