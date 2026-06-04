@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Bec — Comment ça marche ?</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F9FA;
+    --dark: #142B38;
+    --muted: #516675;
+    --border: rgba(20,43,56,0.12);
+    --orange: #FD9D24;
+    --bleu: #26BDE2;
+    --rose: #DD1367;
+    --vert: #4C9F38;
+    --violet: #8E44AD;
+    --surface: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    font-size: 18px;
+    line-height: 1.65;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    color: white;
+    padding: 72px 64px 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: -80px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: var(--orange);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 64px;
+  }
+  .hero-logo img {
+    width: 44px; height: 44px;
+    object-fit: contain; border-radius: 8px; flex-shrink: 0;
+  }
+  .hero-logo-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.04em;
+  }
+  .hero-logo-sep {
+    color: rgba(255,255,255,0.2);
+    font-weight: 300;
+    margin: 0 4px;
+  }
+  .hero-logo-sub {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .hero-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.08;
+    max-width: 640px;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 span {
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.8em;
+    display: block;
+    margin-top: 6px;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.62);
+    max-width: 560px;
+    line-height: 1.75;
+    margin-bottom: 44px;
+  }
+
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hero-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 13px;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 96px 64px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  .section h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    max-width: 600px;
+  }
+
+  .section p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  .section-intro {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 580px;
+    line-height: 1.75;
+    margin-bottom: 56px;
+  }
+
+  /* PROBLEM STRIP */
+  .problem-strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 64px;
+  }
+  .problem-strip h2 {
+    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 28px;
+    max-width: 560px;
+  }
+  .problem-strip p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 580px;
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+  .problem-strip p:last-child { margin-bottom: 0; }
+
+  /* STEPS */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+  .step-card {
+    padding: 36px 28px;
+    border-right: 1px solid var(--border);
+    background: white;
+    position: relative;
+  }
+  .step-card:last-child { border-right: none; }
+  .step-num {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--orange);
+    opacity: 0.18;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .step-card h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .step-card p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .step-top-border {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+  }
+
+  /* FONCTIONNALITES */
+  .features-list {
+    margin-top: 48px;
+    border-top: 1px solid var(--border);
+  }
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-text {
+    padding: 44px 48px 44px 0;
+    border-right: 1px solid var(--border);
+  }
+  .feature-text h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .feature-text p {
+    font-size: 0.86rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+  .feature-text p:last-child { margin-bottom: 0; }
+  .feature-visual {
+    padding: 44px 0 44px 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Mini pipeline */
+  .mini-pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
+  .mini-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mini-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .mini-card-title { font-weight: 600; flex: 1; color: var(--dark); }
+  .mini-card-status { font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+
+  /* Mini AI */
+  .mini-ai {
+    background: var(--dark);
+    color: white;
+    padding: 20px;
+    width: 100%;
+    font-size: 0.78rem;
+    line-height: 1.65;
+  }
+  .mini-ai-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .mini-ai-v { margin-bottom: 10px; color: rgba(255,255,255,0.7); }
+  .mini-ai-v strong { color: white; }
+  .mini-ai-v:last-child { margin-bottom: 0; }
+
+  /* Mini alert */
+  .mini-alert {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mini-alert-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    padding: 12px 14px;
+    font-size: 0.78rem;
+  }
+  .mini-alert-item strong { display: block; font-weight: 700; margin-bottom: 2px; }
+  .mini-alert-item span { color: var(--muted); }
+
+  /* Marques pills */
+  .pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pill {
+    padding: 6px 13px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  /* ROLES */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+  .role-card {
+    background: white;
+    padding: 36px 28px;
+    border-right: 1px solid var(--border);
+  }
+  .role-card:last-child { border-right: none; }
+  .role-emoji { font-size: 1.8rem; margin-bottom: 16px; }
+  .role-card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .role-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 18px;
+  }
+  .role-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .role-card ul li {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+  .role-card ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* FAQ */
+  .faq-list { margin-top: 48px; border-top: 1px solid var(--border); }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    gap: 16px;
+    user-select: none;
+    color: var(--dark);
+  }
+  .faq-toggle {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--muted);
+    transition: all 0.2s;
+    background: white;
+    font-weight: 400;
+  }
+  .faq-item.open .faq-toggle {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: white;
+    transform: rotate(45deg);
+  }
+  .faq-a {
+    display: none;
+    padding: 0 0 22px;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 620px;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* TIPS */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+  .tip-card {
+    background: white;
+    padding: 28px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .tip-card:nth-child(2n) { border-right: none; }
+  .tip-card:nth-last-child(-n+2) { border-bottom: none; }
+  .tip-card h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tip-card p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* CTA STRIP */
+  .cta-strip {
+    background: var(--dark);
+    padding: 80px 64px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .cta-strip h2 {
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    max-width: 480px;
+    margin-bottom: 14px;
+  }
+  .cta-strip p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.88rem;
+    max-width: 420px;
+    line-height: 1.7;
+  }
+  .cta-btn {
+    background: var(--orange);
+    color: white;
+    font-family: 'Barlow', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 14px 32px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .cta-btn:hover { opacity: 0.88; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 32px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--dark);
+  }
+  .footer-logo img {
+    width: 28px; height: 28px;
+    object-fit: contain; border-radius: 5px;
+  }
+  .footer-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* FADE IN */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp 0.45s ease both; }
+  .hero .hero-logo { animation-delay: 0s; }
+  .hero .hero-tag { animation-delay: 0.08s; }
+  .hero h1 { animation-delay: 0.16s; }
+  .hero .hero-sub { animation-delay: 0.24s; }
+  .hero .hero-chips { animation-delay: 0.32s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero, .section, .problem-strip, .cta-strip, .footer { padding-left: 24px; padding-right: 24px; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+    .step-card { border-right: 1px solid var(--border); }
+    .step-card:nth-child(2n) { border-right: none; }
+    .step-card:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+    .feature-row { grid-template-columns: 1fr; }
+    .feature-text { padding: 32px 0 24px; border-right: none; border-bottom: 1px solid var(--border); }
+    .feature-visual { padding: 24px 0 32px; }
+    .roles-grid { grid-template-columns: 1fr; }
+    .role-card { border-right: none; border-bottom: 1px solid var(--border); }
+    .tips-grid { grid-template-columns: 1fr; }
+    .tip-card { border-right: none; }
+    .cta-strip { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* FORMULAIRE */
+  .form-section {
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 96px 64px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-top: 56px;
+  }
+  .field { margin-bottom: 32px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+  .field .field-hint {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  .field input[type="text"],
+  .field textarea,
+  .field select {
+    width: 100%;
+    font-family: 'Barlow', 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: var(--dark);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    outline: none;
+    border-radius: 0;
+    appearance: none;
+    transition: border-color 0.15s;
+  }
+  .field input[type="text"]:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--orange);
+    background: white;
+  }
+  .field textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+  .checkgroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--dark);
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--orange); }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border);
+    background: white;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    color: white;
+    transition: all 0.15s;
+  }
+  .check-item.selected { border-color: var(--orange); background: #FFF8EE; }
+  .check-item.selected .check-box { background: var(--orange); border-color: var(--orange); }
+  .scale-group { display: flex; gap: 8px; }
+  .scale-btn {
+    flex: 1;
+    padding: 10px 4px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-family: 'Barlow', 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .scale-btn:hover { border-color: var(--orange); color: var(--dark); }
+  .scale-btn.selected { background: var(--orange); border-color: var(--orange); color: white; }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+  .form-submit {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .btn-submit {
+    background: var(--dark);
+    color: white;
+    font-family: 'Barlow', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 14px 36px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .btn-submit:hover { opacity: 0.85; }
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+  .form-note { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+  .form-success {
+    display: none;
+    background: #F0FFF4;
+    border: 1px solid var(--vert);
+    border-left: 3px solid var(--vert);
+    padding: 24px 28px;
+    margin-top: 32px;
+    font-size: 0.9rem;
+    color: var(--dark);
+  }
+
+  @media (max-width: 768px) {
+    .form-section { padding: 64px 24px; }
+    .form-grid { grid-template-columns: 1fr; gap: 0; }
+    .checkgroup { grid-template-columns: 1fr; }
+    .scale-group { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-logo">
+    <img src="logo-bec-180.png" alt="Le Bec">
+    <span class="hero-logo-name">Le Bec</span>
+    <span class="hero-logo-sep">/</span>
+    <span class="hero-logo-sub">L'Atelier Com — Reborn & Be</span>
+  </div>
+
+  <div class="hero-tag">Outil interne · Écosystème Be</div>
+
+  <h1>Le Bec.<br><span>Le point d'entrée com des équipes Be.</span></h1>
+
+  <p class="hero-sub">
+    Entre les multisites, les événements, les différentes marques et les infos qui circulent toute la semaine,
+    Le Bec a été pensé comme un outil simple pour centraliser, préparer et suivre les contenus de l'écosystème Be.
+  </p>
+
+  <div class="hero-chips">
+    <span class="hero-chip">Posts</span>
+    <span class="hero-chip">Agenda</span>
+    <span class="hero-chip">Photos</span>
+    <span class="hero-chip">Newsletter</span>
+    <span class="hero-chip">Validation</span>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section class="problem-strip">
+  <h2>Concrètement, ça sert à quoi ?</h2>
+  <p>Le Bec aide les équipes à transformer une information terrain en contenu prêt à relire, ajuster et publier.</p>
+  <p>Une actu, une photo, un événement, une ouverture, un atelier, une publication LinkedIn, une newsletter : tout peut partir d'ici.</p>
+</section>
+
+<!-- COMMENT ÇA MARCHE -->
+<section class="section">
+  <div class="section-tag">Mode d'emploi</div>
+  <h2>Comment ça marche ?</h2>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-top-border"></div>
+      <div class="step-num">1</div>
+      <h3>Je dépose une info</h3>
+      <p>Quelques lignes, une photo ou un document suffisent pour lancer une demande.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-top-border"></div>
+      <div class="step-num">2</div>
+      <h3>Le Bec prépare une base</h3>
+      <p>L'outil propose un premier contenu adapté à la marque et au canal choisi.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-top-border"></div>
+      <div class="step-num">3</div>
+      <h3>On relit et on ajuste</h3>
+      <p>Les équipes gardent toujours la main sur le ton, les infos et la validation.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-top-border"></div>
+      <div class="step-num">4</div>
+      <h3>On publie ou on programme</h3>
+      <p>Le contenu peut ensuite être utilisé pour les réseaux, le site, les newsletters ou les supports print.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CE QUE ÇA FAIT -->
+<section class="section" style="background:white">
+  <div class="section-tag">Dans le détail</div>
+  <h2>Ce que l'outil fait<br>pour vous au quotidien.</h2>
+
+  <div class="features-list">
+    <div class="feature-row">
+      <div class="feature-text">
+        <h3>✦ &nbsp;L'IA propose, vous décidez</h3>
+        <p>Vous décrivez l'info à communiquer. L'outil génère une base textuelle adaptée à la marque et au canal — Instagram, LinkedIn, newsletter, WhatsApp. Vous relisez, vous ajustez, c'est à vous.</p>
+        <p>Chaque marque Be a ses propres règles éditoriales, déjà intégrées. Pas besoin de les ré-expliquer à chaque fois.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="mini-ai">
+          <div class="mini-ai-label">✦ Proposition générée</div>
+          <div class="mini-ai-v"><strong>Version courte —</strong> Ce jeudi, nos espaces Be-Coworking ouvrent leurs portes à Jonquière…</div>
+          <div class="mini-ai-v"><strong>Version longue —</strong> Un nouveau lieu de travail partagé, pensé pour les indépendants et les équipes…</div>
+          <div class="mini-ai-v" style="color:rgba(255,255,255,0.35)"><strong>Version question —</strong> Vous cherchez un espace de travail différent, proche de chez vous ?…</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-text">
+        <h3>⬡ &nbsp;On voit où en est chaque contenu</h3>
+        <p>Les contenus avancent visuellement, de la création à la publication. Tout le monde voit l'état exact sans avoir à demander.</p>
+        <p>Quand c'est votre tour d'agir — relire, valider, publier — vous êtes notifié·e par email.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="mini-pipeline">
+          <div class="mini-card">
+            <div class="mini-dot" style="background:var(--bleu)"></div>
+            <span class="mini-card-title">Post ouverture Be-Cosmo</span>
+            <span class="mini-card-status">En création</span>
+          </div>
+          <div class="mini-card">
+            <div class="mini-dot" style="background:var(--orange)"></div>
+            <span class="mini-card-title">Newsletter mai · Be-Village</span>
+            <span class="mini-card-status">À valider</span>
+          </div>
+          <div class="mini-card">
+            <div class="mini-dot" style="background:var(--vert)"></div>
+            <span class="mini-card-title">Story Campus 112</span>
+            <span class="mini-card-status">Prêt à poster ✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-text">
+        <h3>📅 &nbsp;L'agenda dit ce qu'il reste à faire</h3>
+        <p>Les calendriers des 8 marques sont visibles en un seul endroit. Et Le Bec signale automatiquement les événements qui n'ont pas encore de contenu associé.</p>
+        <p>Rien n'est oublié. Vous décidez de ce que vous traitez et dans quel ordre.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="mini-alert">
+          <div class="mini-alert-item">
+            <strong>Inauguration Be-Coworking Nord</strong>
+            <span>Jeudi 22 mai · Aucun contenu prévu</span>
+          </div>
+          <div class="mini-alert-item">
+            <strong>Forum emploi · Campus 112</strong>
+            <span>Vendredi 30 mai · Aucun contenu prévu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-text">
+        <h3>📷 &nbsp;Les photos sont là, classées par marque</h3>
+        <p>Vous retrouvez les visuels directement dans l'outil, sans passer par Drive. Vous cliquez, la photo s'associe à votre contenu.</p>
+        <p>L'accès à Canva et à la logothèque officielle est aussi disponible depuis Le Bec.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="pills-wrap">
+          <span class="pill" style="background:var(--orange)">Be-Cosmo</span>
+          <span class="pill" style="background:var(--bleu)">Be-Coworking</span>
+          <span class="pill" style="background:var(--violet)">Be-Spaces</span>
+          <span class="pill" style="background:var(--rose)">Be-Village</span>
+          <span class="pill" style="background:var(--vert)">Be-Numerik</span>
+          <span class="pill" style="background:#142B38">Campus 112</span>
+          <span class="pill" style="background:#0A97D9">Reborn & Be</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DANS LE FOND -->
+<section class="section">
+  <div class="section-tag">En coulisses</div>
+  <h2>Et dans le fond ?</h2>
+  <p class="section-intro">Le Bec fonctionne comme un atelier partagé.</p>
+  <p>Derrière l'interface, l'outil s'appuie sur les lignes éditoriales, les habitudes et les besoins des différentes marques de l'écosystème Be pour proposer des contenus cohérents et faciles à retravailler.</p>
+  <p>L'objectif n'est pas de remplacer les équipes. L'objectif est de faciliter la circulation des informations, gagner du temps sur les bases répétitives et garder une mémoire commune des contenus produits.</p>
+</section>
+
+<!-- QUI FAIT QUOI -->
+<section class="section" style="background:white">
+  <div class="section-tag">Les rôles</div>
+  <h2>Chacun a sa place<br>dans Le Bec.</h2>
+  <p class="section-intro">L'outil s'adapte à ce que vous avez à faire. Pas besoin de tout connaître — juste ce qui vous concerne.</p>
+
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-emoji">✏️</div>
+      <h3>Je crée les contenus</h3>
+      <div class="role-label">Chargé·e de com</div>
+      <ul>
+        <li>Je dépose une info, une photo ou une idée</li>
+        <li>Je génère une base avec l'IA</li>
+        <li>Je soumet pour relecture</li>
+        <li>Je suis l'avancement de mes contenus</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-emoji">✅</div>
+      <h3>Je valide et je décide</h3>
+      <div class="role-label">Manager · Valideur</div>
+      <ul>
+        <li>Je reçois une notification quand c'est mon tour</li>
+        <li>Je valide ou je renvoie avec un commentaire</li>
+        <li>Je peux partager un lien à quelqu'un hors de l'équipe</li>
+        <li>Je décide des canaux à activer pour chaque événement</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-emoji">📊</div>
+      <h3>Je pilote l'ensemble</h3>
+      <div class="role-label">Direction · Pilote</div>
+      <ul>
+        <li>Je vois l'activité de toutes les marques</li>
+        <li>Je reçois un récap chaque vendredi</li>
+        <li>Je sais ce qui attend et depuis quand</li>
+        <li>Je peux arbitrer les priorités directement</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-tag">Vos questions</div>
+  <h2>Ce qu'on se demande<br>en découvrant Le Bec.</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        C'est compliqué à prendre en main ?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Non. Le Bec s'ouvre dans votre navigateur. Vous vous connectez avec votre compte Google et c'est parti — rien à installer. Sur iPhone, vous pouvez l'ajouter à votre écran d'accueil comme une vraie application.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        L'IA écrit à ma place — mais c'est bien moi qui valide ?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Oui, toujours. L'IA propose une base, vous choisissez ce qui vous convient, vous l'ajustez, et c'est vous qui soumettez à validation. L'outil ne publie rien sans décision humaine.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Je travaille sur plusieurs marques Be. Comment je m'y retrouve ?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Le Bec est fait pour ça. Vous ne voyez que les marques sur lesquelles vous êtes autorisé·e. Tout est filtrable par marque, par statut, par date. Vous ne voyez pas ce qui ne vous concerne pas.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Qu'est-ce qui change vraiment dans mon quotidien ?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Moins de va-et-vient par message. Moins de fichiers qui se perdent. Moins de "c'est validé ?" sans réponse. Tout le monde sait ce qui avance et ce qui attend — sans avoir à demander.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Est-ce que je dois tout apprendre d'un coup ?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Non. Commencez par créer un contenu et le soumettre. C'est la base. Le reste — agenda, photothèque, archives — vous le découvrirez quand vous en aurez besoin.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Et si quelqu'un doit valider sans avoir accès à l'outil ?
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a">Chaque contenu dispose d'un lien partageable. Vous l'envoyez par email, la personne valide ou renvoie — sans compte, sans accès. Le lien reste actif indéfiniment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ASTUCES -->
+<section class="section" style="background:white">
+  <div class="section-tag">Petits plus</div>
+  <h2>Des détails qui font<br>gagner du temps.</h2>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>⌘K — La recherche rapide</h4>
+      <p>Depuis n'importe où, Cmd+K (Alt+K sur PC) ouvre une palette pour retrouver un contenu, un lien ou une boucle WhatsApp en quelques secondes.</p>
+    </div>
+    <div class="tip-card">
+      <h4>Les templates : partir de ce qui a marché</h4>
+      <p>Un contenu a bien fonctionné ? Sauvegardez-le comme template. La prochaine fois, vous repartez de la même structure en un clic.</p>
+    </div>
+    <div class="tip-card">
+      <h4>Marquer posté → WhatsApp déjà prêt</h4>
+      <p>Quand vous indiquez qu'un contenu est publié, Le Bec prépare automatiquement le message WhatsApp pour notifier la boucle de la marque.</p>
+    </div>
+    <div class="tip-card">
+      <h4>La newsletter compilée automatiquement</h4>
+      <p>En fin de mois, l'outil peut compiler tous les contenus publiés et générer une base de newsletter. Vous relisez, vous ajustez, vous envoyez.</p>
+    </div>
+    <div class="tip-card">
+      <h4>L'app sur iPhone</h4>
+      <p>Safari → bouton Partager → Sur l'écran d'accueil. Le Bec s'ouvre en plein écran, comme une vraie application, sous le nom "Le Bec".</p>
+    </div>
+    <div class="tip-card">
+      <h4>Le récap du vendredi</h4>
+      <p>Les responsables reçoivent chaque vendredi un email avec les contenus publiés dans la semaine et ceux qui attendent encore une décision.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <div>
+    <h2>Pour commencer,<br>il suffit d'ouvrir l'outil.</h2>
+    <p>Demandez l'URL à votre administrateur, connectez-vous avec Google, et créez votre premier contenu. Le reste vient naturellement.</p>
+  </div>
+  <a href="https://script.google.com/macros/s/AKfycbzS8wyOV2tf6UcwVstpNrddFwLin0M9F4BWqrgdd0BJj-w5ahZRGUeQEb1yJAnBjmUa/exec" target="_blank" class="cta-btn">Ouvrir Le Bec</a>
+</div>
+
+<!-- QUESTIONNAIRE -->
+<section class="form-section">
+  <div class="section-tag">Votre avis compte</div>
+  <h2>Quelques questions<br>pour améliorer Le Bec.</h2>
+  <p class="section-intro">5 minutes, anonyme. Vos réponses guident directement les prochaines améliorations.</p>
+
+  <div id="form-wrap">
+    <div class="form-grid">
+      <!-- Colonne gauche -->
+      <div>
+        <div class="field">
+          <label>Sur quels Be travaillez-vous ? <span class="field-hint">Plusieurs réponses possibles</span></label>
+          <div class="checkgroup" id="q-be">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Be-Cosmo"><span class="check-box">✓</span> Be-Cosmo</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Be-Coworking"><span class="check-box">✓</span> Be-Coworking</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Be-Spaces"><span class="check-box">✓</span> Be-Spaces</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Be-Village"><span class="check-box">✓</span> Be-Village</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Be-Numerik"><span class="check-box">✓</span> Be-Numerik</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Campus 112"><span class="check-box">✓</span> Campus 112</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Cœur Jonquière"><span class="check-box">✓</span> Cœur Jonquière</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Reborn & Be"><span class="check-box">✓</span> Reborn & Be</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Quel est votre rôle dans l'équipe ?</label>
+          <select id="q-role">
+            <option value="">— Choisir —</option>
+            <option>Chargé·e de communication</option>
+            <option>Responsable / Manager</option>
+            <option>Direction</option>
+            <option>Coordination transversale</option>
+            <option>Autre</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Le Bec vous a-t-il été utile ? <span class="field-hint">1 = pas du tout, 5 = vraiment</span></label>
+          <div class="scale-group" id="q-utilite">
+            <button class="scale-btn" onclick="selectScale(this,'q-utilite')">1</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-utilite')">2</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-utilite')">3</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-utilite')">4</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-utilite')">5</button>
+          </div>
+          <div class="scale-labels"><span>Pas du tout</span><span>Vraiment utile</span></div>
+        </div>
+
+        <div class="field">
+          <label>Avez-vous l'impression de gagner du temps ? <span class="field-hint">1 = non, 5 = oui clairement</span></label>
+          <div class="scale-group" id="q-temps">
+            <button class="scale-btn" onclick="selectScale(this,'q-temps')">1</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-temps')">2</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-temps')">3</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-temps')">4</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-temps')">5</button>
+          </div>
+          <div class="scale-labels"><span>Pas vraiment</span><span>Oui, clairement</span></div>
+        </div>
+
+        <div class="field">
+          <label>C'était facile à prendre en main ? <span class="field-hint">1 = non, 5 = très facile</span></label>
+          <div class="scale-group" id="q-facilite">
+            <button class="scale-btn" onclick="selectScale(this,'q-facilite')">1</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-facilite')">2</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-facilite')">3</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-facilite')">4</button>
+            <button class="scale-btn" onclick="selectScale(this,'q-facilite')">5</button>
+          </div>
+          <div class="scale-labels"><span>Pas du tout</span><span>Très facile</span></div>
+        </div>
+      </div>
+
+      <!-- Colonne droite -->
+      <div>
+        <div class="field">
+          <label>Avez-vous rencontré des bugs ou blocages ? <span class="field-hint">Décrivez ce qui s'est passé</span></label>
+          <textarea id="q-bugs" placeholder="Ex : la photo ne s'uploadait pas, l'IA ne répondait pas…"></textarea>
+        </div>
+        <div class="field">
+          <label>Quelque chose vous a manqué ?</label>
+          <textarea id="q-manque" placeholder="Une fonction, une info, un raccourci…"></textarea>
+        </div>
+        <div class="field">
+          <label>Qu'est-ce qui vous a semblé trop compliqué ?</label>
+          <textarea id="q-complexe" placeholder="Soyez direct·e, c'est ce qui nous aide le plus."></textarea>
+        </div>
+        <div class="field">
+          <label>Un mot, une phrase, une idée — ce que vous voulez ajouter.</label>
+          <textarea id="q-libre" placeholder="Anything goes."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-submit">
+      <button class="btn-submit" onclick="submitForm()">Envoyer mes réponses</button>
+      <p class="form-note">Anonyme · Les réponses vont directement à l'équipe qui gère Le Bec.</p>
+    </div>
+
+    <div class="form-success" id="form-success">
+      ✓ &nbsp; Merci ! Vos réponses ont bien été reçues. Elles seront lues et prises en compte.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">
+    <img src="logo-bec-180.png" alt="Le Bec">
+    Le Bec — L'Atelier Com, Reborn & Be
+  </div>
+  <div class="footer-note">Juin 2026</div>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.step-card, .feature-row, .role-card, .tip-card, .faq-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  obs.observe(el);
+});
+
+function toggleCheck(el) {
+  el.classList.toggle('selected');
+  el.querySelector('input').checked = el.classList.contains('selected');
+}
+
+function selectScale(btn, groupId) {
+  document.querySelectorAll('#' + groupId + ' .scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function getScale(groupId) {
+  const sel = document.querySelector('#' + groupId + ' .scale-btn.selected');
+  return sel ? sel.textContent : '';
+}
+
+function getBe() {
+  return Array.from(document.querySelectorAll('#q-be .check-item.selected input'))
+    .map(i => i.value).join(', ') || '';
+}
+
+async function submitForm() {
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+
+  const payload = {
+    action: 'submitFeedback',
+    be: getBe(),
+    role: document.getElementById('q-role').value,
+    utilite: getScale('q-utilite'),
+    gainTemps: getScale('q-temps'),
+    facilite: getScale('q-facilite'),
+    bugs: document.getElementById('q-bugs').value,
+    manque: document.getElementById('q-manque').value,
+    complexe: document.getElementById('q-complexe').value,
+    libre: document.getElementById('q-libre').value,
+    date: new Date().toLocaleString('fr-FR')
+  };
+
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbzS8wyOV2tf6UcwVstpNrddFwLin0M9F4BWqrgdd0BJj-w5ahZRGUeQEb1yJAnBjmUa/exec', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      mode: 'no-cors'
+    });
+  } catch(e) {}
+
+  document.getElementById('form-success').style.display = 'block';
+  btn.textContent = 'Envoyé ✓';
+  document.getElementById('form-wrap').querySelectorAll('input, textarea, select, button:not(.btn-submit)').forEach(el => el.disabled = true);
+}
+</script>
+
+</body>
+</html>
