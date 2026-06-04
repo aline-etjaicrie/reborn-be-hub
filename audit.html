@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Bec — Audit des usages com</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #142B38;
+    --darker: #0A1E28;
+    --bg: #F7F9FA;
+    --surface: #ffffff;
+    --muted: #516675;
+    --border: rgba(20,43,56,0.12);
+    --orange: #FD9D24;
+    --vert: #4C9F38;
+    --accent: #0A97D9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--darker);
+    color: white;
+    padding: 40px 64px 48px;
+  }
+  .header-logo {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 36px;
+  }
+  .header-logo img { width: 36px; height: 36px; object-fit: contain; border-radius: 6px; }
+  .header-logo-name { font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+  .header-logo-sep { color: rgba(255,255,255,0.2); margin: 0 4px; }
+  .header-logo-sub { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+  .header-tag {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 800; line-height: 1.1;
+    max-width: 560px; margin-bottom: 16px;
+  }
+  .header-sub {
+    font-size: 0.9rem; color: rgba(255,255,255,0.55);
+    max-width: 520px; line-height: 1.7;
+  }
+
+  /* FORM WRAPPER */
+  .form-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 64px 80px;
+  }
+
+  /* BLOC SECTION */
+  .audit-block {
+    background: white;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .audit-block-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .audit-block-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--dark); color: white;
+    font-size: 0.72rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .audit-block-title {
+    font-size: 0.88rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--dark);
+  }
+  .audit-block-body { padding: 28px 24px; }
+
+  /* FIELD */
+  .field { margin-bottom: 24px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block; font-size: 0.82rem; font-weight: 700;
+    color: var(--dark); margin-bottom: 8px;
+  }
+  .field-hint {
+    font-size: 0.75rem; font-weight: 400;
+    color: var(--muted); margin-left: 6px;
+  }
+  .field input[type="text"],
+  .field input[type="url"],
+  .field textarea,
+  .field select {
+    width: 100%;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.88rem; color: var(--dark);
+    background: var(--bg); border: 1px solid var(--border);
+    padding: 11px 14px; outline: none; border-radius: 0;
+    transition: border-color 0.15s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--orange); background: white;
+  }
+  .field textarea { min-height: 80px; resize: vertical; line-height: 1.55; }
+
+  /* OUI / NON */
+  .yn-group { display: flex; gap: 8px; margin-bottom: 14px; }
+  .yn-btn {
+    flex: 1; max-width: 100px;
+    padding: 9px 0;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.82rem; font-weight: 700;
+    color: var(--muted); cursor: pointer;
+    text-align: center; transition: all 0.15s;
+  }
+  .yn-btn:hover { border-color: var(--dark); color: var(--dark); }
+  .yn-btn.sel-oui { background: var(--dark); border-color: var(--dark); color: white; }
+  .yn-btn.sel-non { background: var(--muted); border-color: var(--muted); color: white; }
+
+  /* SOUS-SECTION CONDITIONNELLE */
+  .sub-section {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 4px;
+  }
+  .sub-section.visible { display: block; }
+
+  /* CHECKGROUP */
+  .checkgroup {
+    display: flex; flex-wrap: wrap; gap: 7px;
+  }
+  .check-item {
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 0.8rem; font-weight: 600; color: var(--dark);
+    user-select: none; transition: all 0.14s;
+  }
+  .check-item:hover { border-color: var(--orange); }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box {
+    width: 15px; height: 15px;
+    border: 1.5px solid var(--border);
+    background: white; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; color: white;
+    transition: all 0.14s;
+  }
+  .check-item.selected { border-color: var(--orange); background: #FFF8EE; }
+  .check-item.selected .check-box { background: var(--orange); border-color: var(--orange); }
+
+  /* DRIVE BLOCK */
+  .drive-block {
+    background: rgba(10,151,217,0.06);
+    border: 1px solid rgba(10,151,217,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .drive-block strong {
+    display: block; font-size: 0.88rem; font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .drive-block p {
+    font-size: 0.82rem; color: var(--muted); line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .drive-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.82rem; font-weight: 700;
+    padding: 9px 18px; text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .drive-btn:hover { opacity: 0.85; }
+
+  /* SUBMIT */
+  .submit-zone {
+    margin-top: 32px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .btn-submit {
+    background: var(--dark); color: white;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.92rem; font-weight: 700;
+    padding: 14px 40px; border: none; cursor: pointer;
+    transition: opacity 0.15s; letter-spacing: 0.02em;
+  }
+  .btn-submit:hover { opacity: 0.85; }
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+  .submit-note { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+
+  .success-block {
+    display: none;
+    background: #F0FFF4;
+    border: 1px solid var(--vert);
+    border-left: 3px solid var(--vert);
+    padding: 24px 28px;
+    margin-top: 28px;
+    font-size: 0.9rem;
+    color: var(--dark);
+  }
+  .error-block {
+    display: none;
+    background: #FFF0F0;
+    border: 1px solid #F05A57;
+    border-left: 3px solid #F05A57;
+    padding: 16px 20px;
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: #c0392b;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.75rem; color: var(--muted);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--dark); }
+  .footer-logo img { width: 22px; height: 22px; object-fit: contain; border-radius: 4px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .header { padding: 32px 24px 40px; }
+    .form-wrap { padding: 32px 20px 60px; }
+    .footer { padding: 20px 24px; }
+  }
+
+  /* FIELD ROW */
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo">
+    <img src="logo-bec-180.png" alt="Le Bec">
+    <span class="header-logo-name">Le Bec</span>
+    <span class="header-logo-sep">/</span>
+    <span class="header-logo-sub">L'Atelier Com — Reborn & Be</span>
+  </div>
+  <div class="header-tag">Formulaire interne</div>
+  <h1>Audit des usages com</h1>
+  <p class="header-sub">
+    Pour chaque marque ou service, ce formulaire permet de cartographier les outils, les canaux et les responsabilités actuels.
+    Répondez au mieux — les champs non applicables peuvent rester vides.
+  </p>
+</header>
+
+<div class="form-wrap">
+
+  <!-- 1. IDENTIFICATION -->
+  <div class="audit-block">
+    <div class="audit-block-head">
+      <div class="audit-block-num">1</div>
+      <div class="audit-block-title">Identification</div>
+    </div>
+    <div class="audit-block-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Nom de la marque ou du service <span style="color:#F05A57">*</span></label>
+          <input type="text" id="f-marque" placeholder="Ex : Be-Cosmo, Campus 112, Be-Numerik…">
+        </div>
+        <div class="field">
+          <label>Votre prénom <span class="field-hint">optionnel</span></label>
+          <input type="text" id="f-prenom" placeholder="Pour vous recontacter si besoin">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. DIFFUSION -->
+  <div class="audit-block">
+    <div class="audit-block-head">
+      <div class="audit-block-num">2</div>
+      <div class="audit-block-title">Canaux de diffusion</div>
+    </div>
+    <div class="audit-block-body">
+
+      <!-- WhatsApp -->
+      <div class="field">
+        <label>WhatsApp</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'wa-detail','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'wa-detail','non')">Non</button>
+        </div>
+        <div class="sub-section" id="wa-detail">
+          <div class="field">
+            <label>Quelles boucles WhatsApp utilisez-vous ? <span class="field-hint">Listez-les, une par ligne</span></label>
+            <textarea id="f-boucles-wa" placeholder="Ex : Boucle équipe Jonquière&#10;Boucle partenaires Campus&#10;Boucle résidents Cosmo…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Réseaux sociaux -->
+      <div class="field">
+        <label>Réseaux sociaux</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'rs-detail','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'rs-detail','non')">Non</button>
+        </div>
+        <div class="sub-section" id="rs-detail">
+          <div class="field">
+            <label>Quels canaux ? <span class="field-hint">Cochez tout ce qui s'applique</span></label>
+            <div class="checkgroup" id="cg-canaux">
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Instagram"><span class="check-box">✓</span> Instagram</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Facebook"><span class="check-box">✓</span> Facebook</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="LinkedIn"><span class="check-box">✓</span> LinkedIn</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="TikTok"><span class="check-box">✓</span> TikTok</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Autre"><span class="check-box">✓</span> Autre</label>
+            </div>
+          </div>
+          <div class="field-row" style="margin-top:16px">
+            <div class="field">
+              <label>Qui administre les comptes ?</label>
+              <input type="text" id="f-admin-rs" placeholder="Prénom ou rôle">
+            </div>
+            <div class="field">
+              <label>Qui fait les posts aujourd'hui ?</label>
+              <input type="text" id="f-qui-poste-rs" placeholder="Prénom ou rôle">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="field">
+        <label>Newsletter</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'nl-oui','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'nl-non','non')">Non</button>
+        </div>
+        <div class="sub-section" id="nl-oui">
+          <div class="field-row">
+            <div class="field">
+              <label>Quel outil d'envoi ?</label>
+              <input type="text" id="f-outil-nl" placeholder="Ex : Mailchimp, Brevo, Sarbacane…">
+            </div>
+            <div class="field">
+              <label>Comment les gens s'inscrivent-ils ?</label>
+              <input type="text" id="f-inscription-nl" placeholder="Ex : formulaire site, à la main, liste Drive…">
+            </div>
+          </div>
+        </div>
+        <div class="sub-section" id="nl-non">
+          <div class="field">
+            <label>Une newsletter vous semblerait-elle utile ?</label>
+            <div class="yn-group" style="max-width:280px">
+              <button class="yn-btn" style="max-width:80px" onclick="selectSimple(this,'nl-utile','Oui')">Oui</button>
+              <button class="yn-btn" style="max-width:80px" onclick="selectSimple(this,'nl-utile','Peut-être')">Peut-être</button>
+              <button class="yn-btn" style="max-width:80px" onclick="selectSimple(this,'nl-utile','Non')">Non</button>
+            </div>
+            <input type="hidden" id="nl-utile" value="">
+          </div>
+        </div>
+      </div>
+
+      <!-- Print -->
+      <div class="field">
+        <label>Print / affiches / flyers</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="selectYNSimple(this,'f-print','Oui')">Oui</button>
+          <button class="yn-btn" onclick="selectYNSimple(this,'f-print','Non')">Non</button>
+        </div>
+        <input type="hidden" id="f-print" value="">
+      </div>
+
+      <!-- Site web -->
+      <div class="field">
+        <label>Site web</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'site-detail','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'site-detail','non')">Non</button>
+        </div>
+        <div class="sub-section" id="site-detail">
+          <div class="field">
+            <label>URL du site</label>
+            <input type="url" id="f-url-site" placeholder="https://…">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. DOCUMENTS -->
+  <div class="audit-block">
+    <div class="audit-block-head">
+      <div class="audit-block-num">3</div>
+      <div class="audit-block-title">Types de documents produits</div>
+    </div>
+    <div class="audit-block-body">
+
+      <!-- Affichage -->
+      <div class="field">
+        <label>Documents d'affichage <span class="field-hint">(affiches, agenda mural, signalétique…)</span></label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'aff-detail','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'aff-detail','non')">Non</button>
+        </div>
+        <div class="sub-section" id="aff-detail">
+          <div class="field">
+            <label>Types d'affichage <span class="field-hint">Cochez ce qui s'applique</span></label>
+            <div class="checkgroup" id="cg-types-aff">
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Agenda mensuel"><span class="check-box">✓</span> Agenda mensuel</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Événement thématique"><span class="check-box">✓</span> Événement thématique</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Signalétique"><span class="check-box">✓</span> Signalétique</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Autre"><span class="check-box">✓</span> Autre</label>
+            </div>
+          </div>
+          <div class="field" style="margin-top:16px">
+            <label>Formats utilisés</label>
+            <div class="checkgroup" id="cg-tailles">
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="A4"><span class="check-box">✓</span> A4</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="A5"><span class="check-box">✓</span> A5</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="A3"><span class="check-box">✓</span> A3</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Autre format"><span class="check-box">✓</span> Autre</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PPT -->
+      <div class="field">
+        <label>Présentations (PowerPoint, slides…)</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'ppt-detail','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'ppt-detail','non')">Non</button>
+        </div>
+        <div class="sub-section" id="ppt-detail">
+          <div class="field">
+            <label>Quel outil ?</label>
+            <input type="text" id="f-outil-ppt" placeholder="Ex : Google Slides, PowerPoint, Keynote, Canva…">
+          </div>
+        </div>
+      </div>
+
+      <!-- Visuels RS -->
+      <div class="field" style="margin-bottom:0">
+        <label>Visuels pour les réseaux sociaux <span class="field-hint">(stories, posts, carousels…)</span></label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="selectYNSimple(this,'f-visuels-rs','Oui')">Oui</button>
+          <button class="yn-btn" onclick="selectYNSimple(this,'f-visuels-rs','Non')">Non</button>
+        </div>
+        <input type="hidden" id="f-visuels-rs" value="">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 4. OUTILS DE CRÉATION -->
+  <div class="audit-block">
+    <div class="audit-block-head">
+      <div class="audit-block-num">4</div>
+      <div class="audit-block-title">Outils de création utilisés</div>
+    </div>
+    <div class="audit-block-body">
+      <div class="field" style="margin-bottom:0">
+        <label>Quels outils utilisez-vous pour créer vos contenus ? <span class="field-hint">Cochez tout ce qui s'applique</span></label>
+        <div class="checkgroup" id="cg-outils">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Canva"><span class="check-box">✓</span> Canva</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Google Slides"><span class="check-box">✓</span> Google Slides</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Word / Google Docs"><span class="check-box">✓</span> Word / Google Docs</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Prestataire externe"><span class="check-box">✓</span> Prestataire externe</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Photoshop / Illustrator"><span class="check-box">✓</span> Photoshop / Illustrator</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Autre"><span class="check-box">✓</span> Autre</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PAPETERIE -->
+  <div class="audit-block">
+    <div class="audit-block-head">
+      <div class="audit-block-num">5</div>
+      <div class="audit-block-title">Papeterie & documents admin</div>
+    </div>
+    <div class="audit-block-body">
+      <div class="field">
+        <label>Avez-vous des besoins en papeterie ou en documents administratifs ?</label>
+        <div class="yn-group">
+          <button class="yn-btn" onclick="toggleYN(this,'pap-detail','oui')">Oui</button>
+          <button class="yn-btn" onclick="toggleYN(this,'pap-detail','non')">Non</button>
+        </div>
+        <div class="sub-section" id="pap-detail">
+          <div class="field" style="margin-bottom:0">
+            <label>Listez vos besoins <span class="field-hint">Un élément par ligne</span></label>
+            <textarea id="f-besoins-pap" placeholder="Ex : enveloppes à en-tête&#10;Tampons / cachet&#10;Contrats types&#10;Modèle de facture…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. DRIVE -->
+  <div class="drive-block">
+    <strong>📂 Déposez vos documents types dans le Drive partagé</strong>
+    <p>Glissez dans le dossier ci-dessous les documents que vous utilisez le plus souvent : affiche type, template post, présentation, modèle de mail, etc. Cela nous aidera à construire des modèles communs.</p>
+    <a href="https://drive.google.com/drive/folders/1zrWU9SFSI48cXEQhh3vWHjaFv-064SOI?usp=drive_link" target="_blank" class="drive-btn">
+      📁 Ouvrir le dossier Drive →
+    </a>
+  </div>
+
+  <!-- 7. ADMINISTRATION -->
+  <div class="audit-block">
+    <div class="audit-block-head">
+      <div class="audit-block-num">7</div>
+      <div class="audit-block-title">Qui fait quoi aujourd'hui ?</div>
+    </div>
+    <div class="audit-block-body">
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:20px;line-height:1.65">Pour chaque étape du processus, indiquez le prénom ou le rôle de la personne qui s'en charge actuellement.</p>
+      <div class="field-row">
+        <div class="field">
+          <label>Qui produit / exécute ?</label>
+          <input type="text" id="f-qui-execute" placeholder="Prénom ou rôle">
+        </div>
+        <div class="field">
+          <label>Qui valide ?</label>
+          <input type="text" id="f-qui-valide" placeholder="Prénom ou rôle">
+        </div>
+      </div>
+      <div class="field">
+        <label>Qui envoie / poste ?</label>
+        <input type="text" id="f-qui-envoie" placeholder="Prénom ou rôle">
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Remarques libres <span class="field-hint">Tout ce que vous voulez ajouter</span></label>
+        <textarea id="f-libre" placeholder="Organisation particulière, contraintes, outils maison, points de friction…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-zone">
+    <button class="btn-submit" onclick="submitAudit()">Envoyer l'audit →</button>
+    <p class="submit-note">Vos réponses sont enregistrées dans le tableau de bord Le Bec.<br>Elles ne sont visibles que par l'équipe de coordination.</p>
+  </div>
+
+  <div class="success-block" id="audit-success">
+    ✓ &nbsp; Merci ! L'audit a bien été enregistré. L'équipe Le Bec prend connaissance de vos réponses.
+  </div>
+  <div class="error-block" id="audit-error"></div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-logo">
+    <img src="logo-bec-180.png" alt="Le Bec">
+    Le Bec — L'Atelier Com, Reborn & Be
+  </div>
+  <span>Juin 2026</span>
+</footer>
+
+<script>
+const PROXY = 'https://script.google.com/macros/s/AKfycbzS8wyOV2tf6UcwVstpNrddFwLin0M9F4BWqrgdd0BJj-w5ahZRGUeQEb1yJAnBjmUa/exec';
+
+// ── Helpers UI ──────────────────────────────────────────────────────────────
+
+function toggleCheck(el) {
+  el.classList.toggle('selected');
+  el.querySelector('input').checked = el.classList.contains('selected');
+}
+
+function getChecked(groupId) {
+  return [...document.querySelectorAll('#' + groupId + ' .check-item.selected input')]
+    .map(i => i.value).join(', ');
+}
+
+function toggleYN(btn, subId, val) {
+  // Met à jour les boutons du groupe
+  const group = btn.closest('.yn-group');
+  group.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('sel-oui','sel-non'));
+  btn.classList.add(val === 'oui' ? 'sel-oui' : 'sel-non');
+
+  // Affiche / cache la sous-section
+  const sub = document.getElementById(subId);
+  if (sub) sub.classList.toggle('visible', val === 'oui');
+
+  // Si deux sous-sections (nl-oui / nl-non) gérées par même bouton
+}
+
+function selectYNSimple(btn, hiddenId, val) {
+  const group = btn.closest('.yn-group');
+  group.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('sel-oui','sel-non'));
+  btn.classList.add(val === 'Oui' ? 'sel-oui' : 'sel-non');
+  document.getElementById(hiddenId).value = val;
+}
+
+function selectSimple(btn, hiddenId, val) {
+  const group = btn.closest('.yn-group');
+  group.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('sel-oui','sel-non'));
+  btn.classList.add('sel-oui');
+  document.getElementById(hiddenId).value = val;
+}
+
+function getYN(groupSelector) {
+  const sel = document.querySelector(groupSelector + ' .yn-btn.sel-oui,' + groupSelector + ' .yn-btn.sel-non');
+  if (!sel) return '';
+  return sel.classList.contains('sel-oui') ? 'Oui' : 'Non';
+}
+
+// Gestion spéciale newsletter (deux sous-sections mutuellement exclusives)
+document.querySelectorAll('.yn-btn').forEach(btn => {
+  if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'nl-oui'")) {
+    btn.addEventListener('click', () => {
+      document.getElementById('nl-non').classList.remove('visible');
+    });
+  }
+  if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'nl-non'")) {
+    btn.addEventListener('click', () => {
+      document.getElementById('nl-oui').classList.remove('visible');
+    });
+  }
+});
+
+// ── Soumission ───────────────────────────────────────────────────────────────
+
+async function submitAudit() {
+  const marque = document.getElementById('f-marque').value.trim();
+  if (!marque) {
+    document.getElementById('f-marque').style.borderColor = '#F05A57';
+    document.getElementById('f-marque').focus();
+    setTimeout(() => document.getElementById('f-marque').style.borderColor = '', 2000);
+    return;
+  }
+
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+  document.getElementById('audit-error').style.display = 'none';
+
+  // Récupère l'état des boutons OUI/NON pour chaque champ
+  function ynVal(btnOuiOnclick) {
+    const allBtns = document.querySelectorAll('.yn-btn');
+    for (const b of allBtns) {
+      const oc = b.getAttribute('onclick') || '';
+      if (oc.includes(btnOuiOnclick)) {
+        if (b.classList.contains('sel-oui')) return 'Oui';
+        if (b.classList.contains('sel-non')) return 'Non';
+      }
+    }
+    return '';
+  }
+
+  const payload = {
+    action: 'submitAudit',
+    date: new Date().toLocaleString('fr-FR'),
+    marque: marque,
+    prenom: document.getElementById('f-prenom').value.trim(),
+    whatsapp: ynVal("'wa-detail','oui'"),
+    bouclesWa: document.getElementById('f-boucles-wa').value.trim(),
+    reseaux: ynVal("'rs-detail','oui'"),
+    canauxRs: getChecked('cg-canaux'),
+    adminRs: document.getElementById('f-admin-rs').value.trim(),
+    quiPosteRs: document.getElementById('f-qui-poste-rs').value.trim(),
+    newsletter: ynVal("'nl-oui','oui'") || ynVal("'nl-non','non'") ? (document.getElementById('nl-oui').classList.contains('visible') ? 'Oui' : 'Non') : '',
+    outilNl: document.getElementById('f-outil-nl').value.trim(),
+    nlUtile: document.getElementById('nl-utile').value,
+    inscriptionNl: document.getElementById('f-inscription-nl').value.trim(),
+    print: document.getElementById('f-print').value,
+    siteWeb: ynVal("'site-detail','oui'"),
+    urlSite: document.getElementById('f-url-site').value.trim(),
+    affichage: ynVal("'aff-detail','oui'"),
+    typesAffichage: getChecked('cg-types-aff'),
+    taillesAffichage: getChecked('cg-tailles'),
+    ppt: ynVal("'ppt-detail','oui'"),
+    outilPpt: document.getElementById('f-outil-ppt').value.trim(),
+    visuelsRs: document.getElementById('f-visuels-rs').value,
+    outilsCreation: getChecked('cg-outils'),
+    papeterie: ynVal("'pap-detail','oui'"),
+    besoinsPapeterie: document.getElementById('f-besoins-pap').value.trim(),
+    quiExecute: document.getElementById('f-qui-execute').value.trim(),
+    quiValide: document.getElementById('f-qui-valide').value.trim(),
+    quiEnvoie: document.getElementById('f-qui-envoie').value.trim(),
+    libre: document.getElementById('f-libre').value.trim()
+  };
+
+  try {
+    const resp = await fetch(PROXY, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      document.getElementById('audit-success').style.display = 'block';
+      btn.textContent = 'Envoyé ✓';
+      document.querySelectorAll('input, textarea, select, .yn-btn, .check-item').forEach(el => el.disabled = true);
+    } else {
+      throw new Error(data.error || 'Erreur inconnue');
+    }
+  } catch(e) {
+    const errEl = document.getElementById('audit-error');
+    errEl.textContent = 'Erreur : ' + e.message + ' — Réessayez ou contactez l\'équipe Le Bec.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Envoyer l\'audit →';
+  }
+}
+</script>
+
+</body>
+</html>
